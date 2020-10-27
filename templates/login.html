@@ -1,61 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Giris Yapın</title>
+{% include "header.html" %}
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="login-assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+<br/><br/><br/><br/><br/><br/><br/>
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="login-assets/css/style.css">
-</head>
-<body>
-
-    <div class="main">
+    <main id="main">
+        <br/><br/>
 
         
 
-        <!-- Sing in  Form -->
-        <section class="sign-in">
+          <section id="login" class="contact">
             <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="login-assets/images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Kayıt Olun</a>
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Giris Yapınız</h2>
-                        <form method="POST" class="register-form" id="login-form">
-                            <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Kullanıcı Adınız"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Şifreniz"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Beni Hatırla</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Giris Yap"/>
-                            </div>
-                        </form>
-                        
-                    </div>
-                </div>
+      
+              <div class="section-title">
+                <h2>Giriş Yap</h2>
+                <p>Sisteme Giriş yaparak web asistanı olarak sunduğumuz tüm hizmetlerden faydalanabilirsiniz</p>
+              </div>
             </div>
-        </section>
+      
+            <div>
+            <div class="container">
+              <div class="row mt-5">
+      
+                
+      
+                <div class="col-lg-8 mt-5 mt-lg-0" style="margin:auto;">
+      
+                  <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                 
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Mailiniz" data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
+                      <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Gİriniz" placeholder="Şifreniz"></textarea>
+                      <div class="validate"></div>
+                    </div>
+                    <div class="mb-3">
+                      <div class="loading">Loading</div>
+                      <div class="error-message"></div>
+                      <div class="sent-message">Mesajınız Gönderildi Teşekkür Ederiz!</div>
+                    </div>
+                    <div class="text-center"><button type="submit">Giriş Yap</button></div>
+                  </form>
+                  <br/> <br/>
+                <a style="float: right;" href="#">Hesabınız yok mu? Hemen Kaydolmak İçin Tıklayınız...</a>
+                </div>
+      
+              </div>
+      
+            </div>
+          </section><!-- End Contact Section -->
 
-    </div>
+    </main>
 
-    <!-- JS -->
-    <script src="login-assets/vendor/jquery/jquery.min.js"></script>
-    <script src="login-assets/js/main.js"></script>
-</body>
-</html>
+    {% include "footer.html" %}

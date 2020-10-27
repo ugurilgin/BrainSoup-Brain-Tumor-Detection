@@ -1,68 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+{% include "header.html" %}
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="login-assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+<br/><br/><br/><br/><br/><br/><br/>
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="login-assets/css/style.css">
-</head>
-<body>
+    <main id="main">
+        <br/><br/>
 
-    <div class="main">
+        
 
-        <!-- Sign up form -->
-        <section class="signup">
+          <section id="register" class="contact">
             <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Kaydolunuz</h2>
-                        <form method="POST" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="İsminiz"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Mail Adresiniz"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Şifreniz"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Şifre Tekrarı"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>Tüm    <a href="#" class="term-service">Kullanım Kosullarını</a> kabul ediyorum</label>
-								<label for="agree-term" class="label-agree-term"><span><span></span></span>KVKK kapsamında    <a href="#" class="term-service">Kisisel verilerimin </a> islenmesini kabul ediyorum</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Kayıt Ol"/>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="login-assets/images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Hesabınız var mı? Hemen Giris yapın</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
       
+              <div class="section-title">
+                <h2>Kayıt Ol</h2>
+                <p>Sisteme Kayıt olarak  web asistanı olarak sunduğumuz tüm hizmetlerden faydalanabilirsiniz</p>
+              </div>
+            </div>
+      
+            <div>
+            <div class="container">
+              <div class="row mt-5">
+      
+                
+      
+                <div class="col-lg-8 mt-5 mt-lg-0" style="margin:auto;">
+      
+                  <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                    <div class="form-row">
+                        <div class="col-md-6 form-group">
+                          <input type="text" name="name" class="form-control" id="name" placeholder="Adınız " data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
+                          <div class="validate"></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                        <input type="text" name="surname" class="form-control" id="surname" placeholder="Soyadınız" data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
+                            <div class="validate"></div>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Mailiniz" data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
+                      <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Gİriniz" placeholder="Şifreniz"></textarea>
+                      <div class="validate"></div>
+                    </div>
+                    <div class="mb-3">
+                      <div class="loading">Loading</div>
+                      <div class="error-message"></div>
+                      <div class="sent-message">Mesajınız Gönderildi Teşekkür Ederiz!</div>
+                    </div>
+                    <div class="text-center"><button type="submit">Kayıt Ol</button></div>
+                  </form>
+                  <br/> <br/>
+                <a style="float: right;" href="#">Hesabınız var mı? Giriş Yapmak İçin Tıklayınız...</a>
+                </div>
+      
+              </div>
+      
+            </div>
+          </section><!-- End Contact Section -->
 
-    </div>
+    </main>
 
-    <!-- JS -->
-    <script src="login-assets/vendor/jquery/jquery.min.js"></script>
-    <script src="login-assets/js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>
+    {% include "footer.html" %}
