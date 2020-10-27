@@ -1,6 +1,6 @@
 
 
-  {% extends "./header.html" %}
+  {% include "header.html" %}
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
@@ -33,21 +33,21 @@
               <div class="row">
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                    <img src="assets/img/lungs.png" alt="" width="70px" height="70px" />
+                    <img src="{{ url_for('static', filename='assets/img/lungs.png') }} " alt="" width="70px" height="70px" />
                     <h4></br>Akciğer Hastalıkları</h4>
                     <p>Akciğer röntgeninizi yapay zeka programlarımızla inceliyoruz.Hastaneye gitmenize gerek kalmadan ön tanınızı koyuyoruz</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                    <img src="assets/img/brain.png" alt="" width="70px" height="70px" />
+                    <img src="{{ url_for('static', filename='assets/img/brain.png') }} " alt="" width="70px" height="70px" />
                     <h4></br>Beyin Tümörü</h4>
                     <p>Beyin MR sonuçlarınızı yapay zeka programlarımızla inceliyoruz.Hastaneye gitmenize gerek kalmadan ön tanınızı koyuyoruz</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                    <img src="assets/img/skin.png" alt="" width="70px" height="70px" />
+                    <img src="{{ url_for('static', filename='assets/img/skin.png') }} " alt="" width="70px" height="70px" />
                     <h4></br>Deri Kanseri</h4>
                     <p>Cilt Resimlerinizi yapay zeka programlarımızla inceliyoruz.Hastaneye gitmenize gerek kalmadan ön tanınızı koyuyoruz</p>
                   </div>
@@ -97,116 +97,9 @@
       </div>
     </section><!-- End About Section -->
 
-    <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="count-box">
-              <i class="icofont-doctor-alt"></i>
-              <span data-toggle="counter-up">85</span>
-              <p>Doktor</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-            <div class="count-box">
-              <i class="icofont-patient-bed"></i>
-              <span data-toggle="counter-up">18</span>
-              <p>Bölüm</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="count-box">
-              <i class="icofont-laboratory"></i>
-              <span data-toggle="counter-up">8</span>
-              <p>Araştırma Laboratuvarı</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="count-box">
-              <i class="icofont-award"></i>
-              <span data-toggle="counter-up">150</span>
-              <p>Ödül</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Counts Section -->
 
    
 
-    <!-- ======= Appointment Section ======= -->
-    <!--<section id="appointment" class="appointment section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Make an Appointment</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
-          <div class="form-row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="col-md-4 form-group">
-              <input type="datetime" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <select name="department" id="department" class="form-control">
-                <option value="">Select Department</option>
-                <option value="Department 1">Department 1</option>
-                <option value="Department 2">Department 2</option>
-                <option value="Department 3">Department 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group">
-              <select name="doctor" id="doctor" class="form-control">
-                <option value="">Select Doctor</option>
-                <option value="Doctor 1">Doctor 1</option>
-                <option value="Doctor 2">Doctor 2</option>
-                <option value="Doctor 3">Doctor 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
-            <div class="validate"></div>
-          </div>
-          <div class="mb-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-          </div>
-          <div class="text-center"><button type="submit">Make an Appointment</button></div>
-        </form>
-
-      </div>
-    </section> End Appointment Section -->
-
-    <!-- ======= Departments Section ======= -->
     <section id="departments" class="departments">
       <div class="container">
 
@@ -245,7 +138,7 @@
                     <p>Kardiyoloji Bölümü, kalp sağlığını korumak, kalp hastalıklarını teşhis ve tedavi etmek amacıyla dünya standartlarında donanım ve alt yapı ile hizmet vermektedir.</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="assets/img/departments-1.jpg" alt="" class="img-fluid">
+                    <img src="{{ url_for('static', filename='assets/img/departments-1.jpg') }} " alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -257,7 +150,7 @@
                     <p>Nöroşirürji, tıbbi branşlar içinde en hızlı gelişim gösteren ve teknolojik gelişmelerden en fazla etkilenen branş olarak gözükmektedir. Sinir sistemi cerrahisi öteden beri kamuoyunun ilgisini çekmiştir. Bu da sinir sisteminin bilinmeyen yönlerinin fazla olması ve yapılacak cerrahi girişimin zorluklar arz etmesi ile ilgilidir.</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="assets/img/departments-2.jpg" alt="" class="img-fluid">
+                    <img src="{{ url_for('static', filename='assets/img/departments-2.jpg') }} " alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -269,7 +162,7 @@
                     <p>Dermatoloji (Deri bilimi) deri, saç, tırnak, mukozal bölgeler ve cinsel yolla bulaşan hastaslıkların tanı ve tedavisiyle ilgilenir. Ekzema, atopik dermatit, akne (sivilce), sedef ve benzeri hastalıklar, cinsel temasla geçen enfeksiyonlar, siğil, uçuk, zona, mantar hastalıkları, bulaşıcı deri hastalıkları, derinin iyi huylu ve kötü huylu tümörleri, saç hastalıkları, tırnak hastalıkları, benler, kaşıntılı deri hastalıkları, vitiligo gibi hastalıklar en sık görülen dermatolojik hastalıklardandır.</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="assets/img/departments-3.jpg" alt="" class="img-fluid">
+                    <img src="{{ url_for('static', filename='assets/img/departments-3.jpg') }} " alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -280,7 +173,7 @@
                     <p>Göğüs hastaliklari (akciger hastaliklari) ile ilgili sikayetler (oksuruk, balgam, hiriltili solunum, nefes darligi gibi) ile basvuran hastalarin muayenesi, tanisi ve ileri tetkiklerinin yapilmasi, - Akciger kanseri tani ve tedavisi - KOAH tani ve tedavisi - Astim tani ve tedavisi gibi… Solunum fonksiyonlarini olcmeye yonelik SFT (solunum fonksiyon testi) yapilmasi, Ileri tetkik gerektiren hastalarin yatisinin yapilmasi, Sigara birakma konusunda uzman yardimi.</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="assets/img/departments-4.jpg" alt="" class="img-fluid">
+                    <img src="{{ url_for('static', filename='assets/img/departments-4.jpg') }} " alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -292,7 +185,7 @@
                     <p>Genel Cerrahi uygulamalarının en problemli ve zor olguları şüphesiz kanserlerdir. Kliniğimizde mide, pankreas, kalın bağırsak, karaciğer kanserlerinin tedavileri güncel tıp pratiği göz önünde tutularak yapılmaktadır. Bu bağlamda kalın bağırsak kanserlerinde laparoskopik (kapalı) yöntem bir rutin halinde uygulanmaktadır.</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="assets/img/departments-5.jpg" alt="" class="img-fluid">
+                    <img src="{{ url_for('static', filename='assets/img/departments-5.jpg') }} " alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -315,7 +208,7 @@
 
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-1.jpg') }} " class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Uğur Ilgın</h4>
                 <span>Takım Lideri</span>
@@ -332,7 +225,7 @@
 
           <div class="col-lg-6 mt-4 mt-lg-0">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-2.jpg') }} " class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Beyin Tümörü Algılayan AI</h4>
                 <span>Beyin ve Sinir Cerrahi</span>
@@ -349,7 +242,7 @@
 
           <div class="col-lg-6 mt-4">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-3.jpg') }} " class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Akciğer Kanseri Algılayan AI</h4>
                 <span>Göğüs Hastalıkları</span>
@@ -366,7 +259,7 @@
 
           <div class="col-lg-6 mt-4">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-4.jpg') }} " class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Deri Kanseri Algılayan AI</h4>
                 <span>Dermatoloji</span>
@@ -396,7 +289,7 @@
 
           <div class="testimonial-wrap">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-1.jpg') }} " class="testimonial-img" alt="">
               <h3>Saul Goodman</h3>
               <h4>Ceo &amp; Founder</h4>
               <p>
@@ -409,7 +302,7 @@
 
           <div class="testimonial-wrap">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-2.jpg') }} " class="testimonial-img" alt="">
               <h3>Sara Wilsson</h3>
               <h4>Designer</h4>
               <p>
@@ -422,7 +315,7 @@
 
           <div class="testimonial-wrap">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-3.jpg') }} " class="testimonial-img" alt="">
               <h3>Jena Karlis</h3>
               <h4>Store Owner</h4>
               <p>
@@ -453,64 +346,64 @@
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-1.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-1.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-1.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-1.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-2.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-2.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-2.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-2.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-3.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-3.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-3.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-3.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-4.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-4.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-4.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-4.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-5.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-5.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-5.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-5.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-6.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-6.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-6.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-6.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-7.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-7.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-7.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-7.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="assets/img/gallery/gallery-8.jpg" class="venobox" data-gall="gallery-item">
-                <img src="assets/img/gallery/gallery-8.jpg" alt="" class="img-fluid">
+              <a href="{{ url_for('static', filename='assets/img/gallery/gallery-8.jpg') }} " class="venobox" data-gall="gallery-item">
+                <img src="{{ url_for('static', filename='assets/img/gallery/gallery-8.jpg') }} " alt="" class="img-fluid">
               </a>
             </div>
           </div>
@@ -597,4 +490,4 @@
 
   </main><!-- End #main -->
 
-  {% include "./footer.html" %}
+  {% include "footer.html" %}
