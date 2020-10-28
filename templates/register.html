@@ -40,9 +40,17 @@
                       <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Gİriniz" placeholder="Şifreniz"></textarea>
-                      <div class="validate"></div>
+                      <input type="password" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Giriniz" placeholder="Şifreniz"></textarea>
+                      <div class="validate"></div> 
                     </div>
+                    <div class="form-group">
+                      <input type="checkbox" style="font-size: 8px;; margin: .4rem;vertical-align:middle;" name="lng1" id="lng1" value="term"  required>
+                      <label style="word-wrap:break-word;vertical-align:middle;" for="lng1">Tüm <a href="{{url_for('terms')}}">Kullanım Koşullarını</a> Okudum ve  Kabul Ediyorum</label>
+                      <div class="validate"></div> 
+                     <br/> <input type="checkbox" style=" font-size: 8px;;margin: .4rem;vertical-align:middle;" name="lng2" id="lng2" value="privacy" required>
+                      <label style="word-wrap:break-word;vertical-align:middle;" for="lng2">KVKK Kapsamında <a href="{{url_for('privacy')}}">Kişisel Verilerimin</a> Kaydedilip,İşlenmesini Kabul Ediyorum</label>                     
+                    </div>
+              
                     <div class="mb-3">
                       <div class="loading">Loading</div>
                       <div class="error-message"></div>
@@ -62,3 +70,5 @@
     </main>
 
     {% include "footer.html" %}
+
+    

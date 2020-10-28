@@ -17,6 +17,12 @@ mail=Mail(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
 @app.route('/login')
 def login():
     return render_template('login.html')
