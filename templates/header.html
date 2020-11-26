@@ -41,7 +41,9 @@
         <i class="icofont-google-map"></i> Çorlu,Tekirdağ
       </div>
       <div class="social-links">
-        <a  class="twitter">Merhaba,<b>Uğur</b> Hoşgeldiniz</a>
+        {% if isim %}
+        <a  class="twitter">Merhaba,<b>{{isim}}</b> Hoşgeldiniz</a>
+        {% endif %}
      
         
       </div>
@@ -64,13 +66,15 @@
           <li><a href="{{url_for('index')}}#team">Ekibimiz</a></li>
          
           <li><a href="{{url_for('index')}}#contact">İletişim</a></li>
-          <li class="drop-down"><a href="{{url_for('index')}}#departments">Profiliniz</a>
+          {% if menu %}
+          <li class="drop-down"><a href="{{url_for('profile')}}">Profiliniz</a>
             <ul>
-              <li><a href="#">Profili Görüntüle</a></li>
+              <li><a href="{{url_for('profile')}}">Profili Görüntüle</a></li>
               <li><a href="{{url_for('tumor')}}#tumor">MR İncele</a></li>
-              <li><a href="#">Çıkış Yap</a></li>
+              <li><a href="{{url_for('logout')}}">Çıkış Yap</a></li>
             </ul>
           </li>
+          {% endif %}
      
           <li><a   href="{{url_for('login')}}#login">Giriş Yap</a></li>
         <li><a   href="{{url_for('signup')}}#register">Kayıt Ol</a></li>
