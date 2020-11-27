@@ -109,7 +109,7 @@ def login_Validation():
 
 @app.route('/addUser',methods=['POST'])
 def add_User():
-    email=request.form.get("email")
+    email=userName
     password=request.form.get("password")
     name=request.form.get("name")
     surname=request.form.get("surname")
@@ -123,7 +123,30 @@ def add_User():
         mysql.connection.commit()
         return redirect(url_for('login'))
         
-    
+@app.route('/updateUser',methods=['POST'])
+def update_User():
+    email=userName
+    password=request.form.get("password")
+    name=request.form.get("name")
+    surname=request.form.get("surname")
+    cursor = mysql.connection.cursor()
+    if 'Update' in request.form:
+        try:
+            cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s,`password` = %(password)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'password':password,'email':email})  
+            mysql.connection.commit()
+            return redirect(url_for('profile'))
+        except:
+            return render_template('profile.html',error="Kayıt Güncellenemedi")  
+    elif 'Delete' in request.form:
+        try:
+            cursor.execute("UPDATE `users`  SET `ban` = '1'  WHERE `email` = %(email)s",{'email':email})  
+            mysql.connection.commit()
+            session.pop('user_auth')
+            return redirect(url_for('index'))
+        except:
+            return render_template('profile.html',error="Kayıt Silinemedi")   
+    else:
+        pass
 @app.route('/form',methods=['POST'])
 def form():
     name=request.form.get("name")
