@@ -7,6 +7,7 @@ from flask_mail import Mail,Message
 from flask_mysqldb import  MySQL
 import os
 import secrets
+from datetime import date
 #import mysql.connector
 ############## </ Import Files > ##############
 
@@ -64,6 +65,12 @@ def signup():
         return redirect(url_for('index'))
     else:
         return render_template('register.html')
+@app.route('/AddPatients')
+def showAddPatients():
+    if 'user_auth' in session:
+        return render_template('patientsadd.html',isim=openName,menu="menu")
+    else:
+        return redirect(url_for('login'))
 @app.route('/profile')
 def profile():
     if 'user_auth' in session:
@@ -98,7 +105,9 @@ def login_Validation():
     if len(users)>0:
         global userName
         global openName
+        global doctor
         session['user_auth']=users[0][6]
+        doctor=users[0][6]
         userName=users[0][3]
         openName=users[0][1]
         print(userName)
@@ -107,9 +116,27 @@ def login_Validation():
     else:
         return render_template('login.html',error="E-Mail veya Şifre Hatalı")
 
+@app.route('/addPatients',methods=['POST'])
+def add_Patients():
+    email=request.form.get("email")
+    tcno=request.form.get("tcno")
+    birth=request.form.get("birth")
+    today=date.today()
+    name=request.form.get("name")
+    surname=request.form.get("surname")
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tcno)s ",{'tcno': tcno})
+    users=cursor.fetchall()
+    if len(users)>0:
+        return render_template('patientsadd.html',error="Bu Hasta Zaten Kayıtlı")
+    else:
+        cursor.execute("INSERT INTO `patients` (`TC`,`name`,`surname`,`email`,`birthdate`,`date`,`doctor`,`ban`) VALUES( %(TC)s,%(name)s,%(surname)s,%(email)s,%(birthdate)s,%(date)s,%(doctor)s,%(ban)s)",{'TC': tcno,'name':name,'surname':surname,'email':email,'birthdate':birth,'date':today,'doctor':doctor,'ban':'0'})  
+        mysql.connection.commit()
+        return redirect(url_for('showAddPatients'))
+
 @app.route('/addUser',methods=['POST'])
 def add_User():
-    email=userName
+    email=request.form.get("email")
     password=request.form.get("password")
     name=request.form.get("name")
     surname=request.form.get("surname")
