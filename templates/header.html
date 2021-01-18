@@ -12,6 +12,7 @@
   <!-- Favicons -->
   <link href="{{ url_for('static', filename='assets/img/favicon.png') }} " rel="icon">
   <link href= "{{ url_for('static', filename='assets/img/apple-touch-icon.png') }} "  rel="apple-touch-icon">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.1/dist/bootstrap-table.min.css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -26,7 +27,7 @@
   <link href="{{ url_for('static', filename='assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='assets/css/style.css') }}"  rel="stylesheet">
 
- 
+  
 </head>
 
 <body>
@@ -36,7 +37,7 @@
   <div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
     <div class="container d-flex">
       <div class="contact-info mr-auto">
-        <i class="icofont-envelope">  <a href="mailto:ugurilgin94@gmail.com" />ugurilgin94@gmail</a></i>
+        <i class="icofont-envelope">  <a href="mailto:ugurilgin94@gmail.com" />ugurilgin94@gmail.com</a></i>
         
         <i class="icofont-google-map"></i> Çorlu,Tekirdağ
       </div>
@@ -69,18 +70,21 @@
           {% if menu %}
           <li class="drop-down"><a href="{{url_for('profile')}}">Profiliniz</a>
             <ul>
+              {% if admin=="1" %}<li><a href="{{url_for('admin')}}">Admin Paneli</a></li>{% endif %}
               <li><a href="{{url_for('profile')}}">Profili Görüntüle</a></li>
               <li><a href="{{url_for('showAddPatients')}}">Hasta Ekle</a></li>
-              <li><a href="{{url_for('tumor')}}#tumor">Hastaları Görüntüle</a></li>
+              <li><a href="{{url_for('showviewPatients')}}">Hastaları Görüntüle</a></li>
               <li><a href="{{url_for('tumor')}}#tumor">MR İncele</a></li>
+              <li><a href="{{url_for('showViewMR')}}">MR Raporları</a></li>
+              <li><a href="{{url_for('resultTumor')}}">Kaydedilmemiş MR Sonucu</a></li>              
               <li><a href="{{url_for('logout')}}">Çıkış Yap</a></li>
             </ul>
           </li>
-          {% endif %}
+          {% else %}
      
           <li><a   href="{{url_for('login')}}#login">Giriş Yap</a></li>
         <li><a   href="{{url_for('signup')}}#register">Kayıt Ol</a></li>
-         
+        {% endif %}
 
         </ul>
       </nav><!-- .nav-menu -->

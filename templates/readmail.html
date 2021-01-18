@@ -1,0 +1,64 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Mail Gönder</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+              
+              <form action="/operatorMailAdmin" method="post" role="form" class="php-email-form">
+                {% if error %}
+                <a style="left: right;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>{% if link %}<a style="float: right;" href="{{url_for('viewMailAdmin')}}"> Tüm Mailleri Görmek için Tıklayınız...</a>{% endif %}<br/><br/>
+               {% endif %}
+                <div hidden class="form-group">
+                  <input type="text" class="form-control" name="id" id="id" {% if id %} value="{{id}}" {% endif %} placeholder="ID"  />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="name" id="name" {% if name %} value="{{name}}" {% endif %} placeholder="İsim"  />
+                  <div class="validate"></div>
+                </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" id="email" {% if email %} value="{{email}}" {% endif %} placeholder="Kime" data-rule="email"  />
+                    <div class="validate"></div>
+                  </div>
+                
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" {% if subject %} value="{{subject}}" {% endif %} placeholder="Konu"   />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" id="message"     placeholder="Mesajınız">{% if message %} {{message}} {% endif %}</textarea>
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="date" name="birth" class="form-control" id="birth" {% if date %} value="{{date}}" {% endif %} placeholder="Mail Tarihi"   />
+                </div>
+                <div class="text-center"><button name="Answer" value="Answer" type="submit" class="btn btn-primary" style="float:left; ">Cevap Yaz</button>
+                <button name="Delete" value="Delete" type="submit" class="btn btn-danger" style="float:left; margin-left:10px;">Maili Sil</button>
+                <button name="Read" value="Read" type="submit" class="btn btn-warning" style="float:left; margin-left:10px; ">Okunmadı Olarak İşaretle</button></div>                    
+              
+              </form>
+            </br>
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

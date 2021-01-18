@@ -1,0 +1,91 @@
+{% include "header.html" %}
+
+<br/><br/><br/><br/><br/>
+
+<button style="float: right; margin-right:10px;" class="btn btn-primary hidden-print" onclick="printDiv('main')"><span class="glyphicon glyphicon-print" ></span> Yazdır</button></br>
+    <main id="main">
+      
+      
+        <section>
+          <div class="container" width="100%">
+      
+            <div class="section-title">
+                 
+              <h2>MR Raporu</h2>
+              
+          
+
+
+           </div>
+          
+
+         
+      
+              
+      
+            </div>
+          </section><!-- End Contact Section -->
+          <section>
+            <div class="container" width="100%">
+          <div class="section-title">
+            <h3 >Hasta Bilgileri</h3>
+            <hr />
+          </div>
+           <div style="float: left;"> 
+            <p>Hastanın TC Kimlik No: {{patients[1]}}</p>
+            <p>Hastanın Adı ve Soyadı: {{patients[2]}} {{patients[3]}}</p>
+            <p>Hastanın Doğum Tarihi: {{patients[5]}}</p>
+          </div>
+          <div style="float: right;">
+            <p>Hastanın Cinsiyeti: {{patients[9]}}</p>
+            <p>Hastanın Mail Adresi: {{patients[4]}}</p>
+          </div>
+        </div>
+        </section>
+          <section>
+            <div class="container" width="100%">
+      <div class="section-title">
+          <h3 >MR Sonuçları</h3>
+          <hr />
+        </div>
+          <div style="float: left;">
+
+          <p>MR Kayıt Tarihi:{{tumor[2]}}</p>
+          
+          <p>MR Görüntüsü:</p>
+          <img style="float: left;" src="{{ url_for('static', filename=tumor[3] ) }} " width="400" height="500" alt="" >
+      
+          </div>
+          <div style="float: right;">
+            <p>MR Sonucu:{{tumor[6]}}</p>
+            <p>MR Sonucu Görüntüsü:</p>
+            <img style="float: left;" src="{{ url_for('static', filename=tumor[4] ) }} " width="400" height="500" alt="" >
+            </div>
+          </div>
+      
+        </section>
+    </main>
+    <form action="/deleteReport" method="post"  class="form">
+      <div hidden class="form-group">
+        <input type="text" class="form-control" name="tc" id="tc"  value="{{patients[1]}}"  placeholder="TC"  />
+        <div class="validate"></div>
+      </div>
+    <div class="text-center" ><button name="Delete" value="Delete" type="submit" style="background: #cc1919;color: white;">Raporu Sil</button></div>
+                                        
+    </form>
+<script>
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+
+</script>
+    {% include "footer.html" %}
+
+    

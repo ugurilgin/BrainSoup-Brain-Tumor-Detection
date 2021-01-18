@@ -1,0 +1,63 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Mail Gönder</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+              
+              <form action="/operatorUserAdmin" method="post" role="form" class="php-email-form">
+                {% if error %}
+                <a style="left: right;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>{% if link %}<a style="float: right;" href="{{url_for('viewUserAdmin')}}"> Tüm Kullacıları Görmek için Tıklayınız...</a>{% endif %}<br/><br/>
+               {% endif %}
+                <div hidden class="form-group">
+                  <input type="text" class="form-control" name="id" id="id" {% if id %} value="{{id}}" {% endif %} placeholder="ID"  />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="name" id="name" {% if name %} value="{{name}}" {% endif %} placeholder="İsim"  />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="surname" id="surname" {% if surname %} value="{{surname}}" {% endif %} placeholder="Soyisim"  />
+                  <div class="validate"></div>
+                </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" id="email" {% if email %} value="{{email}}" {% endif %} placeholder="Email" data-rule="email" disabled />
+                    <div class="validate"></div>
+                  </div>
+                
+                <div class="form-group">
+                  <input type="text" class="form-control" name="admin" id="admin" {% if isadmin== "1" %} value="Yönetici" {% else %} value="Yönetici Değil"  {% endif %} placeholder="Yönetici Değil"   />
+                  <div class="validate"></div>
+                </div>
+                
+                
+                <div class="text-center"><button name="Answer" value="Answer" type="submit" class="btn btn-primary" style="float:left; ">Yönetici Yap</button>
+                <button name="Delete" value="Delete" type="submit" class="btn btn-danger" style="float:left; margin-left:10px;">Kullanıcıyı Engelle</button>
+                
+              
+              </form>
+            </br>
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

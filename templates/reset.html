@@ -1,0 +1,95 @@
+{% include "header.html" %}
+<style>
+  .form button[type="submit"] {
+  background: #1977cc;
+  border: 0;
+  padding: 10px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.form button[type="submit"]:hover {
+  background: #1c84e3;
+}
+
+.form input, .form textarea, .form select {
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+  padding: 10px !important;
+}
+
+.form input:focus, .form textarea:focus, .form select:focus {
+  border-color: #1977cc;
+}
+
+.form input, .form select {
+  height: 44px;
+}
+</style>
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <main id="main">
+        <br/><br/>
+
+        
+
+          <section id="login" class="contact">
+            <div class="container">
+      
+              <div class="section-title">
+                <h2>Şifremi Unuttum</h2>
+                
+              </div>
+            </div>
+      
+            <div>
+            <div class="container">
+              <div class="row mt-5">
+      
+                
+      
+                <div class="col-lg-8 mt-5 mt-lg-0" style="margin:auto;">
+                  {% if error %}
+                  <a style="float: left;color: red;"> {{error}}</a><br/><br/>
+                 {% endif %}
+                  {% if key=="default" %}
+
+                  <form action="/resetPassword" method="post"  class="form">
+                 
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Mailiniz" data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
+                    </div>
+                   
+                  
+
+                    <div class="text-center"><button type="submit">Gönder</button></div>
+                    
+                  </form>
+                  {% else %}
+
+                  <form action="/changePassword" method="post"  class="form">
+                 
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Giriniz" placeholder="Şifreniz"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="secondpassword" id="secondpassword" rows="5" data-rule="required" data-msg="Şifrenizi Giriniz" placeholder="Şifreniz"></textarea>
+                    </div>
+
+                    <div class="text-center"><button type="submit">Şifreyi Değiştir</button></div>
+                    
+                  </form>
+                  {% endif %}
+
+                </div>
+      
+              </div>
+      
+            </div>
+          </section><!-- End Contact Section -->
+
+    </main>
+
+    {% include "footer.html" %}

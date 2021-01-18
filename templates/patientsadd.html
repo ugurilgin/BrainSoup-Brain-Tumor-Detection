@@ -54,30 +54,43 @@
       
                   <form action="/addPatients" method="post"  class="form">
                     {% if error %}
-                    <a style="float: left;color: red;">Kaydetme Hatası: {{ error }}</a><br/><br/>
+                    <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>{% if link %}<a style="float: right;" href="{{url_for('showviewPatients')}}"> Tüm Hastaları Görüntülemek için Tıklayınız...</a>{% endif %}<br/><br/>
                    {% endif %}
                     <div class="form-row">
                         <div class="col-md-6 form-group">
-                          <input type="text" name="name" class="form-control" id="name" placeholder="Hastanın Adı " data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
+                          <input type="text" name="name" class="form-control" id="name" placeholder="Hastanın Adı " {% if name %} value="{{name}}" {% endif %} data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
                         </div>
                         <div class="col-md-6 form-group">
-                        <input type="text" name="surname" class="form-control" id="surname" placeholder="Hastanın Soyadı" data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
+                        <input type="text" name="surname" class="form-control" id="surname" placeholder="Hastanın Soyadı" {% if surname %} value="{{surname}}" {% endif %} data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
                         </div>
                       </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Hastanın Mail Adresi" data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Hastanın Mail Adresi" {% if email %} value="{{email}}" {% endif %} data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
                     </div>
                     <div class="form-group">
-                      <input type="text" name="tcno" class="form-control" id="tcno" placeholder="Hastanın TC Nosu" data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
+                      <input type="text" name="tcno" class="form-control" id="tcno" placeholder="Hastanın TC Nosu" {% if TCnosu %} value="{{TCnosu}}" {% endif %} data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
                     </div>
                     <div class="form-group">
-                      <input type="date" name="birth" class="form-control" id="birth" placeholder="Hastanın Doğum Tarihi"   />
+                      <input type="text" name="cinsiyet" class="form-control" id="cinsiyet" placeholder="Hastanın Cinsiyeti" {% if cinsiyet %} value="{{cinsiyet}}" {% endif %} data-rule="minlen:5" data-msg="En az 5 karakter olmalıdır" />
+                      </div>
+                    <div class="form-group">
+                      <input type="date" name="birth" class="form-control" id="birth" {% if birth %} value="{{birth}}" {% endif %} placeholder="Hastanın Doğum Tarihi"   />
                     </div>
                     
                     
               
-                    
-                    <div class="text-center"><button type="submit">Hasta Ekle</button></div>
+                  {% if tcno=="default" %}
+
+                    <div class="text-center"><button name="Add" value="Add" type="submit">Hasta Ekle</button></div>
+                  
+
+                    {% else %}
+
+
+                    <div class="text-center"><button name="Update" value="Update" type="submit" style="float:left; margin-left:220px;">Hastayı Güncelle</button></div>
+                    <div class="text-center" ><button name="Delete" value="Delete" type="submit" style="background: #cc1919;float:left; margin-left:20px;">Hastayı Sil</button></div>                    
+                    {% endif %}
+
                   </form>
                   
                 </div>

@@ -1,77 +1,86 @@
 {% include  "header.html" %}
+<link href="{{ url_for('static', filename='assets/css/dragstyle.css') }}"  rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
+
+<br/><br/><br/><br/><br/><br/><br/>
   <main id="main">
 
-<!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex align-items-center">
-  <div class="container">
-    <h1>BrainSoup Web Asistanına Hoş Geldiniz</h1>
-    <h2>Beyin Tümörü Tespiti İçin MR Sonuçlarına Göre  Doktorlara Yardımcı Olan Bir Web Asistandır.</h2>
-    <a href="#tumor" class="btn-get-started scrollto">Detaylar</a>
-  </div>
-</section><!-- End Hero -->
-<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
-    <!-- ======= Breadcrumbs Section ======= 
-    <section class="breadcrumbs">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Yapay Zeka ile  Beyin Tümörü Tespiti</h2>
-          <ol>
-            <li><a href="index.html">Anasayfa</a></li>
-            <li>Yapay Zeka ile  Beyin Tümörü Tespiti</li>
-          </ol>
-        </div>
-
-      </div>
-    </section> End Breadcrumbs Section -->
-
+    <br/><br/>
     <section id="tumor" class="contact">
       <div class="container">
 
         <div class="section-title">
-          <h2>İletişim</h2>
-          <p>Bizimle aşağıdaki form aracılıyla veya iletişim bilgilerimizi kullanılarak iletişim kuranbilirsiniz</p>
+          <h2>MR İncele</h2>
+          <p>İncelemek istediğiniz MR Görüntüsünü yükleyiniz.</p>
         </div>
+       
       </div>
-
+      
       <div>
+       
       <div class="container">
-        <div class="row mt-5">
-
+        
+        
+          
+          <form action="/uploadTumor" method="post" enctype=multipart/form-data>
+           
+            <div class="form" >
+                <input name="file" accept="image/x-png,image/jpeg" id="entry_value" ref="fileInput" type="file"  onchange="getFileName()">
+                <div>     
+                    <img id="resim" src="{{ url_for('static', filename='assets/img/upload.png') }}" alt="upload" height="100" width="100" class="mx-2">
+                      MR Görüntüsünü Buraya Sürükleyiniz veya    
+                    <button class="btn bg-color-dblue btn-primary px-4 py-3">Dosyadan Seçin</button>
+                  
+               
+                  
+                  </div>
+                  
+              </div>
+       
+            </div>
+            <div class="text-center"><button style="background-color: #1977cc; margin-top: 25px;"  class="btn bg-color-dblue btn-primary px-4 py-3" name="Add" value="Add" type="submit">İncele</button>
           
 
-          <div class="col-lg-8 mt-5 mt-lg-0" style="margin:auto;">
-
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="form-row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Adınız ve Soyadınız" data-rule="minlen:4" data-msg="En az 4 karakter olmalıdır" />
-                  <div class="validate"></div>
-                </div>
-                <div class="col-md-6 form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Mailiniz" data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
-                  <div class="validate"></div>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Mail Konunuz" data-rule="minlen:4" data-msg="En az 8 karakter olacak şekilde mesaj konusunu giriniz" />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Mesajınız"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Mesajınız Gönderildi Teşekkür Ederiz!</div>
-              </div>
-              <div class="text-center"><button type="submit">Gönder</button></div>
-            </form>
-
           </div>
+        
+        <span style="margin-left: 100px;"  id="fileName" class="text-primary ">
+
+        </span>
+          </form>
+        <script type="text/javascript">
+ 
+          $(document).ready(function(){
+          
+           
+          $("#entry_value").change(function(event){
+          var input = $(event.currentTarget);
+          var file = input[0].files[0];
+          var reader = new FileReader();
+          reader.onload = function(e){
+          image_base64 = e.target.result;
+          
+          document.getElementById('resim').src=image_base64;
+          document.getElementById('resim').width="320";
+          document.getElementById('resim').height="320";
+          };
+          reader.readAsDataURL(file);
+          });
+          });
+          </script>
+          <script>
+         function getFileName()
+        {
+         
+        var x = document.getElementById('entry_value');
+        document.getElementById('fileName').innerHTML = x.value.split('\\').pop();
+        
+        }
+
+          </script>
+
+         
 
         </div>
 

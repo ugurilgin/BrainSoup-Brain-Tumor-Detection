@@ -1,0 +1,72 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Anasayfa Ayarları</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/updateIndex" method="post" role="form" class="php-email-form">
+                 
+                  <div class="form-group">
+                    <label for="main">Ana Başlık</label>
+                    <input type="text" class="form-control" name="main" id="main" {% if mainsubject %} value="{{mainsubject}}" {% endif %} placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="explain">Açıklaması</label>
+                    <input type="text" class="form-control" name="explain" id="explain" {% if explain %} value="{{explain}}" {% endif %} placeholder="Ana Başlık'ın Açıklaması"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="why">Neden Bizi Seçmelisiniz</label>
+                    <textarea class="form-control" id="why" name="why" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{% if whyus %} {{whyus}} {% endif %} </textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="doctorwhy">Doktorlara Yardımcı</label>
+                    <textarea class="form-control" id="doctorwhy" name="doctorwhy" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{% if doctorwhy %} {{doctorwhy}} {% endif %}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="brainwhy">Beyin Tümörü Tespiti</label>
+                    <textarea class="form-control" id="brainwhy" name="brainwhy" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz"> {% if brainwhy %} {{brainwhy}} {% endif %}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cloudwhy">Bulut Desteği</label>
+                    <textarea class="form-control" id="cloudwhy" name="cloudwhy" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{% if cloudwhy %} {{cloudwhy}} {% endif %}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                
+              
+                <div class="text-center"><button type="submit" class="btn btn-primary">Güncelle</button></div>
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

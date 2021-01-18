@@ -1,0 +1,248 @@
+
+
+{% include "header.html" %}
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <main id="main">
+        <br/><br/>
+
+
+        <section id="graph" class="contact">
+          <div class="container">
+    
+            <div class="section-title">
+              <h2>Hasta Grafikleri</h2>
+              <p>Hasta Analizlerini İnceleyebilir ve Tablo üzerinden kayıtlı hastalarınızı görebilir.TC Kimlik No'sundaki bağlantıya tıklayarak hasta bilgilerini düzenleyebilirsiniz</p>
+
+
+            
+
+          <div class="row">
+            <div  class="col-md-6 col-xl-4">
+                <div style="background-color:rgb(21, 173, 211);" class="card mb-3 widget-content bg-midnight-bloom">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Toplam Hasta Sayısı</div>
+                            <div class="widget-subheading">___________</div>
+
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white"><span>{% if sumpatient %} {{sumpatient}} {% endif %}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div style="background-color:rgb(33, 185, 71);" class="card mb-3 widget-content bg-arielle-smile">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Erkek Hasta Sayısı</div>
+                            <div class="widget-subheading">___________</div>
+
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white"><span>{% if negative %} {{negative}} {% endif %}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-md-6 col-xl-4">
+                <div style="background-color:slateblue;" class="card mb-3 widget-content bg-grow-early">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Kadın Hasta Sayısı</div>
+                            <div class="widget-subheading">___________</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white"><span>{% if possitive %} {{possitive}} {% endif %}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+      </div>
+          
+    </div>
+          <div class="container">
+           
+
+<div style="float: left; " id="Cinsiyetpiechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var male=Number("{% if male %} {{male}} {% endif %}");
+  var female=Number("{% if female %} {{female}} {% endif %}");
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['Erkek Hasta Sayısı', male],
+  ['Kadın Hasta Sayısı', female],
+ 
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Hastaların Cinsiyet Dağılımı', 'width':450, 'height':450};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('Cinsiyetpiechart'));
+  chart.draw(data, options);
+}
+</script>
+
+
+<div style="float: left; " id="Yaspiechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var age1=Number("{% if age1 %} {{age1}} {% endif %}");
+  var age2=Number("{% if age2 %} {{age2}} {% endif %}");
+  var age3=Number("{% if age3 %} {{age3}} {% endif %}");
+  var age4=Number("{% if age4 %} {{age4}} {% endif %}");
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['18 Yaş Altı Hasta Sayısı', age1],
+  ['18-30 Yaş Arası Hasta Sayısı', age2],
+  ['30-65 Yaş Arası Hasta Sayısı', age3],
+  ['65 Yaş Üstü Hasta Sayısı', age4]
+ 
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Hastaların Yaş Dağılımları', 'width':450, 'height':450};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('Yaspiechart'));
+  chart.draw(data, options);
+}
+</script>
+          </div>
+
+        </section>
+
+          <section id="register" class="contact">
+            <div class="container">
+      
+              <div class="section-title">
+                <h2>Hastaları Görüntüle</h2>
+              </div>
+
+
+
+
+
+
+              
+            </div>
+            
+
+    
+      
+            <div>
+            <div class="container">
+              <div class="row mt-5">
+      
+                
+      
+                <div class="container mt-2 mb-2" style="margin:auto;">
+      
+                    <table  cellspacing="0" width="100%"
+                      data-toggle="table"
+                      data-pagination="true"
+                      data-search="true"
+                      
+                      >
+
+                      <thead>
+                          <tr>
+                            <th class="th-sm" data-field="tc" data-sortable="true">TC Kimlik No
+                      
+                            </th>
+                            <th class="th-sm" data-field="name" data-sortable="true">İsim
+                      
+                            </th>
+                            <th class="th-sm" data-field="surname" data-sortable="true">Soyisim
+                      
+                            </th>
+                            <th class="th-sm" data-field="email" data-sortable="true">Email
+                      
+                            </th>
+                            <th class="th-sm" data-field="birthdate" data-sortable="true">Doğum Tarihi
+                      
+                          </th>
+                          <th class="th-sm" data-field="date" data-sortable="true">Kayıt Tarihi
+                      
+                          </th>
+                          <th class="th-sm" data-field="cinsiyet" data-sortable="true">Cinsiyeti
+                      
+                          </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
+                          {% for row in data %}
+                          <tr>
+                            <td><a href="/AddPatients/{{row[0]}}">{{row[0]}}</a></td>
+                            <td>{{row[1]}}</td>
+                            <td>{{row[2]}}</td>
+                            <td>{{row[3]}}</td>
+                            <td>{{row[4]}}</td>
+                            <td>{{row[5]}}</td>
+                            <td>{{row[6]}}</td>
+
+                        
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th>TC Kimlik No
+                            </th>
+                            <th>İsim
+                            </th>
+                            <th>Soyisim
+                            </th>
+                            <th>Email
+                            </th>
+                            <th>Doğum Tarihi
+                            </th>
+                            <th>Kayıt Tarihi
+                            </th>
+                            <th>Cinsiyeti
+                            </th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                  
+                </div>
+                <script>
+                    $(document).ready(function () {
+                      $('#dtBasicExample').DataTable();
+                      $('.dataTables_length').addClass('bs-select');
+                    });
+                        </script>
+              </div>
+      
+            </div>
+          </section><!-- End Contact Section -->
+
+    </main>
+    
+    {% include "footer.html" %}
+
+    

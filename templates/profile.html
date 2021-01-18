@@ -33,16 +33,174 @@
     <main id="main">
         <br/><br/>
 
-        
+        <section>
+          <div class="container" width="100%">
+      
+            <div class="section-title">
+              {% if isim %}   
+              <h2>Merhaba, {{isim}}</h2>
+              {% endif %}
+            </br>  </br> 
+
+
+
+              <div class="row">
+                <div  class="col-md-6 col-xl-4">
+                    <div style="background-color:rgb(21, 173, 211);" class="card mb-3 widget-content bg-midnight-bloom">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Toplam Hasta Sayısı</div>
+                                <div class="widget-subheading">___________</div>
+
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>{% if sumpatient %} {{sumpatient}} {% endif %}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div style="background-color:rgb(33, 185, 71);" class="card mb-3 widget-content bg-arielle-smile">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Sağlıklı Hasta Sayısı</div>
+                                <div class="widget-subheading">___________</div>
+
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>{% if negative %} {{negative}} {% endif %}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div  class="col-md-6 col-xl-4">
+                    <div style="background-color:slateblue;" class="card mb-3 widget-content bg-grow-early">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Tümörlü Hasta Sayısı</div>
+                                <div class="widget-subheading">___________</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>{% if possitive %} {{possitive}} {% endif %}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+
+
+          </br>  </br>    </br></br>
+              <h3 style="color:royalblue;">Grafikler</h3>
+              <p>Hoş Geldiniz, Bu alanda hastalarınızın grafiklerinizi görüntüleyebilirsiniz</p>
+            </div>
+          </div>
+
+          <div class="container">
+            <div style="float: left; " id="Hastapiechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var possitive=Number("{% if possitive %} {{possitive}} {% endif %}");
+  var negative=Number("{% if negative %} {{negative}} {% endif %}");
+
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['Tümörlü Hasta Sayısı', possitive],
+  ['Sağlıklı Hasta Sayısı', negative]
+ 
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Hastaların Durum Dağılımları', 'width':350, 'height':350};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('Hastapiechart'));
+  chart.draw(data, options);
+}
+</script>
+
+
+<div style="float: left; " id="Cinsiyetpiechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var male=Number("{% if male %} {{male}} {% endif %}");
+  var female=Number("{% if female %} {{female}} {% endif %}");
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['Erkek Hasta Sayısı', male],
+  ['Kadın Hasta Sayısı', female],
+ 
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Tümörlü Hastaların Cinsiyet Dağılımı', 'width':350, 'height':350};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('Cinsiyetpiechart'));
+  chart.draw(data, options);
+}
+</script>
+
+
+<div style="float: left; " id="Yaspiechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var age1=Number("{% if age1 %} {{age1}} {% endif %}");
+  var age2=Number("{% if age2 %} {{age2}} {% endif %}");
+  var age3=Number("{% if age3 %} {{age3}} {% endif %}");
+  var age4=Number("{% if age4 %} {{age4}} {% endif %}");
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['18 Yaş Altı Hasta Sayısı', age1],
+  ['18-30 Yaş Arası Hasta Sayısı', age2],
+  ['30-65 Yaş Arası Hasta Sayısı', age3],
+  ['65 Yaş Üstü Hasta Sayısı', age4]
+ 
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Tümörlü Hasta Yaş Dağılımları', 'width':350, 'height':350};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('Yaspiechart'));
+  chart.draw(data, options);
+}
+</script>
+          </div>
+        </section >
 
           <section id="register" class="contact">
             <div class="container">
       
               <div class="section-title">
                 {% if isim %}   
-                <h2>Merhaba, {{isim}}</h2>
+                <h3 style="color:royalblue;">Bilgilerini Güncelle</h3>
                 {% endif %}
-                <p>Hoş Geldiniz, Bu alanda kişisel bilgilerinizi güncelleyebilirsiniz</p>
+                <p>Bu alanda kişisel bilgilerinizi güncelleyebilirsiniz</p>
               </div>
             </div>
       
@@ -77,7 +235,7 @@
                       </div>
                     <div class="form-group">
                       {% if password %} 
-                      <input type="text" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Giriniz" placeholder="Şifreniz" value={{password}}>
+                      <input type="text" class="form-control" name="password" id="password" rows="5" data-rule="required" data-msg="Şifrenizi Giriniz" placeholder="Yeni Şifreniz" >
                     </div>
                     {% endif %}
               

@@ -1,0 +1,66 @@
+{% include "admin-header.html" %}              
+    <!-- Custom styles for this page -->
+				<!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Kullanıcı Bilgileri</h1>
+                    
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Kullanıcılar</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>İsim</th>
+                                            <th>Soyisim</th>
+                                            <th>E-Mail</th>   
+                                            <th>Yöneticilik Durumu</th>
+                                          
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>İsim</th>
+                                            <th>Soyisim</th>
+                                            <th>E-Mail</th>   
+                                            <th>Yöneticilik Durumu</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for rows in datas %}
+                                        
+                                        <tr ->
+                                          <td><a href="/userSettings/{{rows[0]}}">{{rows[0]}}</a></td>
+                                          <td>{{rows[1]}}</td>
+                                          <td>{{rows[2]}}</td>
+                                          <td>{{rows[3]}}</td>
+                                          <td>{% if rows[4]=="0" %} Yönetici Değil {% else %}Yönetici {% endif %}</td>
+                                        
+                                        </tr>
+                                       
+                                     
+                                       
+                                        {% endfor %}
+                             
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            
+            <!-- End of Main Content -->
+			 <!-- Page level plugins -->
+			
+            {% include "admin-footer.html" %}  
