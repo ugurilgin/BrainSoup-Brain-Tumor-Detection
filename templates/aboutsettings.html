@@ -1,0 +1,80 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Hakkımızda Ayarları</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/updateIndex" method="post" role="form" class="php-email-form">
+                 
+                  <div class="form-group">
+                    <label for="main">Ana Başlık</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="explain">Detaylar</label>
+                    <textarea class="form-control" id="doctorwhy" name="doctorwhy" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{{indexdetail[0][3]}}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="why">İkinci Başlık</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="why">Detaylar</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="doctorwhy">Üçüncü Başlık</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="why">Detaylar</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="brainwhy">Dördüncü Başlık</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="why">Detaylar</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cloudwhy">Video Linki</label>
+                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                  </div>
+                
+              
+                <div class="text-center"><button type="submit" class="btn btn-primary">Güncelle</button></div>
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

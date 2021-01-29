@@ -121,10 +121,13 @@ def addTumor():
         return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="MR Sonucu Başarılı Bir Şekilde Kaydedildi.",link="a")
 @app.route('/')
 def index():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `about` WHERE `id`='1' ")  
+    indexdetail=cursor.fetchone()
     if 'user_auth' in session:
-        return render_template('index.html',isim=openName,menu="menu",admin=adminstatus)
+        return render_template('index.html',indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
     else:
-        return render_template('index.html')
+        return render_template('index.html',indexdetail=indexdetail)
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
@@ -697,9 +700,44 @@ def showIndexUpdate():
             unread=cursor.fetchall()
             cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
             allmessage=cursor.fetchall()
-            cursor.execute("SELECT * FROM `email` ") 
-            settingsindex=cursor.fetchall()
-            return render_template('sendmail.html',isim=openName,unread=unread[0][0],allmessage=allmessage,subject=readmail[0][1],email=readmail[0][0])
+            cursor.execute("SELECT * FROM `about` WHERE `id`='1' ") 
+            indexdetail=cursor.fetchall()
+            return render_template('indexsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,indexdetail=indexdetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/updateIndex' ,methods=['POST'])
+def updateIndex():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            main=request.form.get("main")
+            explain=request.form.get("explain")
+            why=request.form.get("why")
+            doctorwhy=request.form.get("doctorwhy")
+            brainwhy=request.form.get("brainwhy")
+            cloudwhy=request.form.get("cloudwhy")
+
+  
+            try:
+                cursor.execute("UPDATE `about`  SET `title` = %(title)s,`detail` = %(detail)s ,`whyus` = %(whyus)s,`doctor` = %(doctor)s ,`brain` = %(brain)s,`cloud` = %(cloud)s WHERE `id` = '1' ",{'title':main,'detail':explain,'whyus':why,'doctor':doctorwhy,'brain':brainwhy,'cloud':cloudwhy})  
+                mysql.connection.commit()
+                cursor.execute("SELECT * FROM `about` WHERE `id`='1' ") 
+                indexdetail=cursor.fetchall()
+                return render_template('indexsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kayıt Başarılı Bir Şekilde Güncellendi",indexdetail=indexdetail)
+            except:
+                cursor.execute("SELECT * FROM `about` WHERE `id`='1' ") 
+                indexdetail=cursor.fetchall()
+                return render_template('indexsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",indexdetail=indexdetail)
+            
+            
         else:
             return redirect(url_for('profile'))
     else:

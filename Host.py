@@ -4,4 +4,3 @@ class Host:
         self.hostUser="root"
         self.hostPassword=""
         self.hostDB="brainsoup"
-
