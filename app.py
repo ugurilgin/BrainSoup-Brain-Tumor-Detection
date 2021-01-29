@@ -124,10 +124,12 @@ def index():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM `about` WHERE `id`='1' ")  
     indexdetail=cursor.fetchone()
+    cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ")  
+    aboutdetail=cursor.fetchone()
     if 'user_auth' in session:
-        return render_template('index.html',indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
+        return render_template('index.html',aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
     else:
-        return render_template('index.html',indexdetail=indexdetail)
+        return render_template('index.html',aboutdetail=aboutdetail,indexdetail=indexdetail)
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
@@ -736,6 +738,62 @@ def updateIndex():
                 cursor.execute("SELECT * FROM `about` WHERE `id`='1' ") 
                 indexdetail=cursor.fetchall()
                 return render_template('indexsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",indexdetail=indexdetail)
+            
+            
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/showAboutUpdate' )
+def showAboutUpdate():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ") 
+            aboutdetail=cursor.fetchall()
+            return render_template('aboutsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,aboutdetail=aboutdetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/updateAbout' ,methods=['POST'])
+def updateAbout():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            main=request.form.get("main")
+            explain=request.form.get("explain")
+            second=request.form.get("second")
+            details2=request.form.get("details2")
+            third=request.form.get("third")
+            details3=request.form.get("details3")
+            fourth=request.form.get("fourth")
+            details4=request.form.get("details4")
+            link=request.form.get("link")
+
+        
+            try:
+                cursor.execute("UPDATE `whous`  SET `title` = %(title)s,`detail` = %(detail)s ,`title2` = %(title2)s,`detail2` = %(detail2)s ,`title3` = %(title3)s,`detail3` = %(detail3)s,`title4` = %(title4)s,`detail4` = %(detail4)s,`videolink` = %(link)s WHERE `id` = '1' ",{'title':main,'detail':explain,'title2':second,'detail2':details2,'title3':third,'detail3':details3,'title4':fourth,'detail4':details4,'link':link})  
+                mysql.connection.commit()
+                cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ") 
+                aboutdetail=cursor.fetchall()
+                return render_template('aboutsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kayıt Başarılı Bir Şekilde Güncellendi",aboutdetail=aboutdetail)
+            except:
+                cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ") 
+                aboutdetail=cursor.fetchall()
+                return render_template('aboutsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",aboutdetail=aboutdetail)
             
             
         else:

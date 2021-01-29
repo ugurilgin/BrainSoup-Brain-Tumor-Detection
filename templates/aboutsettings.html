@@ -21,45 +21,52 @@
                 <br/><br/>
 
                {% endif %}
-              <form action="/updateIndex" method="post" role="form" class="php-email-form">
+              <form action="/updateAbout" method="post" role="form" class="php-email-form">
                  
                   <div class="form-group">
                     <label for="main">Ana Başlık</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />
+                    <input type="text" class="form-control" name="main" id="main"  value="{{aboutdetail[0][1]}}"  placeholder="Ana Başlık"   />
                     <div class="validate"></div>
                   </div>
                   <div class="form-group">
                     <label for="explain">Detaylar</label>
-                    <textarea class="form-control" id="doctorwhy" name="doctorwhy" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{{indexdetail[0][3]}}</textarea>
+                    <textarea class="form-control" id="explain" name="explain" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{{aboutdetail[0][2]}}</textarea>
                     <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="why">İkinci Başlık</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="second">İkinci Başlık</label>
+                    <input type="text" class="form-control" name="second" id="second"  value="{{aboutdetail[0][3]}}"  placeholder="Ana Başlık"   />                   
+                     <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="why">Detaylar</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="details2">Detaylar</label>
+                    <input type="text" class="form-control" name="details2" id="details2"  value="{{aboutdetail[0][4]}}"  placeholder="Ana Başlık"   />                   
+                     <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="doctorwhy">Üçüncü Başlık</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="third">Üçüncü Başlık</label>
+                    <input type="text" class="form-control" name="third" id="third"  value="{{aboutdetail[0][5]}}"  placeholder="Ana Başlık"   />                   
+                     <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="why">Detaylar</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="details3">Detaylar</label>
+                    <input type="text" class="form-control" name="details3" id="details3"  value="{{aboutdetail[0][6]}}"  placeholder="Ana Başlık"   />                  
+                      <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="brainwhy">Dördüncü Başlık</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="fourth">Dördüncü Başlık</label>
+                    <input type="text" class="form-control" name="fourth" id="fourth"  value="{{aboutdetail[0][7]}}"  placeholder="Ana Başlık"   />                    
+                    <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="why">Detaylar</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="details4">Detaylar</label>
+                    <input type="text" class="form-control" name="details4" id="details4"  value="{{aboutdetail[0][8]}}"  placeholder="Ana Başlık"   />                    
+                    <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <label for="cloudwhy">Video Linki</label>
-                    <input type="text" class="form-control" name="main" id="main"  value="{{indexdetail[0][0]}}"  placeholder="Ana Başlık"   />                    <div class="validate"></div>
+                    <label for="link">Video Linki</label>
+                    <input type="text" class="form-control" name="link" id="link"  value="{{aboutdetail[0][9]}}"  placeholder="Ana Başlık"   />                   
+                     <div class="validate"></div>
                   </div>
                 
               
