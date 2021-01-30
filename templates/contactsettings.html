@@ -1,0 +1,139 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">İletişim Bilgilerini Düzenle</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/updateContact" method="post" role="form" class="php-email-form">
+                 
+                  <div class="form-group">
+                    <label for="email">E-Mail</label>
+                    <input type="email" class="form-control" name="email" id="email"   value="{{contactdetail[0][1]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Telefon No</label>
+                    <input type="tel" class="form-control" name="phone" id="phone"   maxlength="14" placeholder="(XXX) XXX-XXXX"  value="{{contactdetail[0][2]}}"    />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="adress">Adres</label>
+                    <textarea class="form-control" id="adress" name="adress" rows="5" data-rule="required" data-msg="Message" placeholder="Neden Biz">{{contactdetail[0][3]}}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="twitter">Twitter</label>
+                    <input type="text" class="form-control" name="twitter" id="twitter"  value="{{contactdetail[0][4]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" class="form-control" name="facebook" id="facebook"  value="{{contactdetail[0][5]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="instagram">Instagram</label>
+                    <input type="text" class="form-control" name="instagram" id="instagram"  value="{{contactdetail[0][6]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="skype">Skype</label>
+                    <input type="text" class="form-control" name="skype" id="skype"  value="{{contactdetail[0][7]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="linkedin">Linkedin </label>
+                    <input type="text" class="form-control" name="linkedin" id="linkedin"  value="{{contactdetail[0][8]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                
+              
+                <div class="text-center"><button type="submit" class="btn btn-primary">Güncelle</button></div>
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+<script>
+  $('#phone')
+
+.keydown(function (e) {
+  var key = e.which || e.charCode || e.keyCode || 0;
+  $phone = $(this);
+
+  // Don't let them remove the starting '('
+  if ($phone.val().length === 1 && (key === 8 || key === 46)) {
+    $phone.val('('); 
+    return false;
+  } 
+  // Reset if they highlight and type over first char.
+  else if ($phone.val().charAt(0) !== '(') {
+    $phone.val('('+String.fromCharCode(e.keyCode)+''); 
+  }
+
+  // Auto-format- do not expose the mask as the user begins to type
+  if (key !== 8 && key !== 9) {
+    if ($phone.val().length === 4) {
+      $phone.val($phone.val() + ')');
+    }
+    if ($phone.val().length === 5) {
+      $phone.val($phone.val() + ' ');
+    }			
+    if ($phone.val().length === 9) {
+      $phone.val($phone.val() + '-');
+    }
+  }
+
+  // Allow numeric (and tab, backspace, delete) keys only
+  return (key == 8 || 
+      key == 9 ||
+      key == 46 ||
+      (key >= 48 && key <= 57) ||
+      (key >= 96 && key <= 105));	
+})
+
+.bind('focus click', function () {
+  $phone = $(this);
+  
+  if ($phone.val().length === 0) {
+    $phone.val('(');
+  }
+  else {
+    var val = $phone.val();
+    $phone.val('').val(val); // Ensure cursor remains at the end
+  }
+})
+
+.blur(function () {
+  $phone = $(this);
+  
+  if ($phone.val() === '(') {
+    $phone.val('');
+  }
+});
+</script>
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

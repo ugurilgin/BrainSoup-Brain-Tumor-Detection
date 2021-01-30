@@ -54,7 +54,7 @@ def allowed_file(filename):
 @app.route('/braintumordetect')
 def tumor():
     if 'user_auth' in session:
-        return render_template('braintumordetect.html',isim=openName,menu="menu",admin=adminstatus)
+        return render_template('braintumordetect.html',isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
 @app.route('/uploadTumor',methods=['POST'])
@@ -101,7 +101,7 @@ def resultTumor():
         data=cursor.fetchall()
         if(len(data)>0):
             rTumor=data
-            return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=data[0][0],tumor=data[0][1],result=data[0][2])
+            return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=data[0][0],tumor=data[0][1],result=data[0][2],contactdetail=contactdetail)
         else:
             return redirect(url_for('tumor'))
     else:
@@ -114,13 +114,14 @@ def addTumor():
     users=cursor.fetchall()
     print(len(users))
     if len(users)<=0:
-        return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="Hata: Bu TC Kimlik Nosuna Sahip Hasta Bulunamadı")
+        return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="Hata: Bu TC Kimlik Nosuna Sahip Hasta Bulunamadı",contactdetail=contactdetail)
     else:
         cursor.execute("UPDATE `tumor`  SET `TC` = %(tc)s ,`cinsiyet` = %(cinsiyet)s,`birthdate` = %(birthdate)s,`ban` = %(ban)s WHERE `ban` = '1' AND  `TC` = '00000000000' AND `doctor` LIKE  %(doctor)s",{'tc': tc,'cinsiyet':users[0][9],'birthdate':users[0][5],'ban':'0','doctor':doctor})   
         mysql.connection.commit()
-        return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="MR Sonucu Başarılı Bir Şekilde Kaydedildi.",link="a")
+        return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="MR Sonucu Başarılı Bir Şekilde Kaydedildi.",link="a",contactdetail=contactdetail)
 @app.route('/')
 def index():
+    global contactdetail
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM `about` WHERE `id`='1' ")  
     indexdetail=cursor.fetchone()
@@ -128,37 +129,54 @@ def index():
     aboutdetail=cursor.fetchone()
     cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ")  
     slidedetail=cursor.fetchone()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
     if 'user_auth' in session:
-        return render_template('index.html',slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
+        return render_template('index.html',contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
     else:
-        return render_template('index.html',slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail)
+        return render_template('index.html',contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail)
 @app.route('/terms')
 def terms():
-    return render_template('terms.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
+    return render_template('terms.html',contactdetail=contactdetail)
 @app.route('/privacy')
 def privacy():
-    return render_template('privacy.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
+    return render_template('privacy.html',contactdetail=contactdetail)
 @app.route('/login')
 def login():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
     if 'user_auth' in session:
         return redirect(url_for('index'))
     else:
-        return render_template('login.html')
+        return render_template('login.html',contactdetail=contactdetail)
 @app.route('/resetpass',defaults={'key':'default'})
 @app.route('/resetpass/<key>')
 def resetpass(key):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
     global changepass
     if key=="default":
-        return render_template('reset.html',key=key)
+        return render_template('reset.html',key=key,contactdetail=contactdetail)
     else:
         changepass=key
-        return render_template('reset.html',key=key)
+        return render_template('reset.html',key=key,contactdetail=contactdetail)
 @app.route('/register')
 def signup():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
     if 'user_auth' in session:
         return redirect(url_for('index'))
     else:
-        return render_template('register.html')
+        return render_template('register.html',contactdetail=contactdetail)
 
 @app.route('/MRDetails' ,defaults={'id':'default'})
 @app.route('/MRDetails/<id>')
@@ -176,7 +194,7 @@ def MRDetails(id):
             cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tc)s AND `ban` LIKE '0' AND `doctor` LIKE  %(doctor)s  ",{'tc': tc,'doctor': doctor}) 
             patientdata=cursor.fetchone()
             if len(patientdata)>0:
-                return render_template('detailmr.html',isim=openName,menu="menu",admin=adminstatus,tumor=tumordata,patients=patientdata)
+                return render_template('detailmr.html',isim=openName,menu="menu",admin=adminstatus,tumor=tumordata,patients=patientdata,contactdetail=contactdetail)
             else:
                 return redirect(url_for('showViewMR'))
         else:
@@ -204,7 +222,7 @@ def showviewPatients():
         age4=cursor.fetchone()
         cursor.execute("SELECT TC,name,surname,email,birthdate,date,cinsiyet FROM `patients` WHERE `ban` LIKE '0' AND `doctor` LIKE  %(doctor)s  ",{'doctor': doctor}) 
         data=cursor.fetchall()
-        return render_template('patientsview.html',isim=openName,menu="menu",admin=adminstatus,data=data,sumpatient=countpatients[0],negative=male[0],possitive=female[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0])
+        return render_template('patientsview.html',isim=openName,menu="menu",admin=adminstatus,data=data,sumpatient=countpatients[0],negative=male[0],possitive=female[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0],contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
 @app.route('/deleteReport',methods=['POST'])
@@ -238,7 +256,7 @@ def showViewMR():
         age4=cursor.fetchone()
         cursor.execute("SELECT tumor.id,patients.TC,patients.name,patients.surname,patients.email,patients.birthdate,tumor.date,patients.cinsiyet FROM `patients` JOIN `tumor` ON patients.TC = tumor.TC WHERE tumor.ban LIKE '0' AND tumor.doctor LIKE  %(doctor)s  ",{'doctor': doctor}) 
         data=cursor.fetchall()
-        return render_template('mrview.html',isim=openName,menu="menu",admin=adminstatus,data=data,sumpatient=countpatients[0],negative=negativepatients[0],possitive=possitivepatients[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0])
+        return render_template('mrview.html',isim=openName,menu="menu",admin=adminstatus,data=data,sumpatient=countpatients[0],negative=negativepatients[0],possitive=possitivepatients[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0],contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
 @app.route('/AddPatients' ,defaults={'tc':'default'})
@@ -248,12 +266,12 @@ def showAddPatients(tc):
     TCNo=tc
     if 'user_auth' in session:
         if TCNo=="default":
-            return render_template('patientsadd.html',isim=openName,menu="menu",admin=adminstatus,tcno=tc)
+            return render_template('patientsadd.html',isim=openName,menu="menu",admin=adminstatus,tcno=tc,contactdetail=contactdetail)
         if TCNo!="default":
             cursor = mysql.connection.cursor()
             cursor.execute("SELECT TC,name,surname,email,birthdate,cinsiyet FROM `patients` WHERE `TC` LIKE  %(TC)s AND `doctor` LIKE  %(doctor)s  ",{'TC': tc,'doctor':doctor}) 
             users=cursor.fetchall()
-            return render_template('patientsadd.html',TCnosu=users[0][0],name=users[0][1],surname=users[0][2],email=users[0][3],birth=users[0][4],cinsiyet=users[0][5],isim=openName,menu="menu",admin=adminstatus,tcno=tc)
+            return render_template('patientsadd.html',TCnosu=users[0][0],name=users[0][1],surname=users[0][2],email=users[0][3],birth=users[0][4],cinsiyet=users[0][5],isim=openName,menu="menu",admin=adminstatus,tcno=tc,contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
 @app.route('/profile')
@@ -281,7 +299,7 @@ def profile():
         age3=cursor.fetchone()
         cursor.execute("SELECT count(`TC`) FROM `tumor` WHERE TIMESTAMPDIFF(YEAR, `birthdate`, NOW())>=65  AND `ban` LIKE '0' AND `doctor` LIKE  %(doctor)s  ",{'doctor': doctor}) 
         age4=cursor.fetchone()
-        return render_template('profile.html',isim=users[0][1],name=users[0][1],surname=users[0][2],email=users[0][3],password=users[0][4],menu="menu",admin=adminstatus,sumpatient=countpatients[0],negative=negativepatients[0],possitive=possitivepatients[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0])
+        return render_template('profile.html',isim=users[0][1],name=users[0][1],surname=users[0][2],email=users[0][3],password=users[0][4],menu="menu",admin=adminstatus,sumpatient=countpatients[0],negative=negativepatients[0],possitive=possitivepatients[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0],contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
 
@@ -295,6 +313,9 @@ def logout():
 
 @app.route('/loginValidation',methods=['POST'])
 def login_Validation():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
     email=request.form.get("email")
     password=request.form.get("password")
     result = hashlib.md5(password.encode("utf-8")).hexdigest()
@@ -315,7 +336,7 @@ def login_Validation():
         return redirect(url_for('index'))
         
     else:
-        return render_template('login.html',error="E-Mail veya Şifre Hatalı")
+        return render_template('login.html',error="E-Mail veya Şifre Hatalı",contactdetail=contactdetail)
 
 @app.route('/addPatients',methods=['POST'])
 def add_Patients():
@@ -332,18 +353,18 @@ def add_Patients():
 
             cursor.execute("UPDATE `patients`  SET `name` = %(name)s ,`surname` = %(surname)s,`email` = %(email)s,`birthdate` = %(birthdate)s ,`cinsiyet` = %(cinsiyet)s WHERE `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'name': name,'surname':surname,'email':email,'birthdate':birth,'TC':TCNo,'cinsiyet':cinsiyet,'doctor':doctor})  
             mysql.connection.commit()
-            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Güncellendi.",link="a",isim=openName,menu="menu",admin=adminstatus) 
+            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Güncellendi.",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
         except Exception as e:
             
-            return render_template('patientsadd.html',error="Hata: Hasta Bilgileri Güncellenemedi ",isim=openName,menu="menu",admin=adminstatus,TCnosu=TCNo,name=name,surname=surname,email=email,birth=birth,cinsiyet=cinsiyet,tcno=TCNo) 
+            return render_template('patientsadd.html',error="Hata: Hasta Bilgileri Güncellenemedi ",isim=openName,menu="menu",admin=adminstatus,TCnosu=TCNo,name=name,surname=surname,email=email,birth=birth,cinsiyet=cinsiyet,tcno=TCNo,contactdetail=contactdetail) 
     elif 'Delete' in request.form:
         try:
             cursor.execute("UPDATE `patients`  SET `ban` = '1'  WHERE `TC` = %(TC)s",{'TC':TCNo})  
             mysql.connection.commit()
-            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Silindi. ",link="a",isim=openName,menu="menu",admin=adminstatus) 
+            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Silindi. ",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
 
         except:
-            return render_template('patientsadd.html',error="Kayıt Silinemedi",isim=openName,menu="menu",admin=adminstatus)   
+            return render_template('patientsadd.html',error="Kayıt Silinemedi",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail)   
     elif 'Add' in request.form:
         email=request.form.get("email")
         tcno=request.form.get("tcno")
@@ -356,11 +377,11 @@ def add_Patients():
         cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tcno)s AND `doctor` LIKE  %(doctor)s ",{'tcno': tcno,'doctor':doctor})
         users=cursor.fetchall()
         if len(users)>0:
-            return render_template('patientsadd.html',error="Bu Hasta Zaten Kayıtlı",isim=openName,menu="menu",tcno="default",admin=adminstatus)
+            return render_template('patientsadd.html',error="Bu Hasta Zaten Kayıtlı",isim=openName,menu="menu",tcno="default",admin=adminstatus,contactdetail=contactdetail)
         else:
             cursor.execute("INSERT INTO `patients` (`TC`,`name`,`surname`,`email`,`birthdate`,`date`,`doctor`,`ban`,`cinsiyet`) VALUES( %(TC)s,%(name)s,%(surname)s,%(email)s,%(birthdate)s,%(date)s,%(doctor)s,%(ban)s,%(cinsiyet)s)",{'TC': tcno,'name':name,'surname':surname,'email':email,'birthdate':birth,'date':today,'doctor':doctor,'ban':'0','cinsiyet':cinsiyet})  
             mysql.connection.commit()
-            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Kaydedildi.",link="a",isim=openName,menu="menu",admin=adminstatus) 
+            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Kaydedildi.",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
     else:
         pass
 @app.route('/addUser',methods=['POST'])
@@ -374,11 +395,11 @@ def add_User():
     cursor.execute("SELECT * FROM `users` WHERE `email` LIKE %(email)s ",{'email': email})
     users=cursor.fetchall()
     if len(users)>0:
-        return render_template('register.html',error="Hata: Bu E-Mail Adresiyle Üye Zaten Kayıtlı")
+        return render_template('register.html',error="Hata: Bu E-Mail Adresiyle Üye Zaten Kayıtlı",contactdetail=contactdetail)
     else:
         cursor.execute("INSERT INTO `users` (`name`,`surname`,`email`,`password`,`ban`,`user_auth`,`admin`) VALUES( %(name)s,%(surname)s,%(email)s,%(password)s,%(ban)s,%(user_auth)s,%(admin)s)",{'name': name,'surname':surname,'email':email,'password':result,'ban':'0','user_auth':secrets.token_hex(),'admin':'0'})  
         mysql.connection.commit()
-        return render_template('register.html',error="Kullanıcı Oluşturma İşlemi Başarıyla Tamamlandı. ",link="a")
+        return render_template('register.html',error="Kullanıcı Oluşturma İşlemi Başarıyla Tamamlandı. ",link="a",contactdetail=contactdetail)
         #return redirect(url_for('login'))
 
                
@@ -396,7 +417,7 @@ def update_User():
             mysql.connection.commit()
             return redirect(url_for('profile'))
         except:
-            return render_template('profile.html',error="Kayıt Güncellenemedi",isim=openName,menu="menu",admin=adminstatus,name=name,surname=surname,email=email,password=password)  
+            return render_template('profile.html',error="Kayıt Güncellenemedi",isim=openName,menu="menu",admin=adminstatus,name=name,surname=surname,email=email,password=password,contactdetail=contactdetail)  
     elif 'Delete' in request.form:
         try:
             cursor.execute("UPDATE `users`  SET `ban` = '1'  WHERE `email` = %(email)s",{'email':email})  
@@ -404,7 +425,7 @@ def update_User():
             session.pop('user_auth')
             return redirect(url_for('index'))
         except:
-            return render_template('profile.html',error="Kayıt Silinemedi",isim=openName,menu="menu",admin=adminstatus)   
+            return render_template('profile.html',error="Kayıt Silinemedi",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail)   
     else:
         pass
 @app.route('/form',methods=['POST'])
@@ -422,7 +443,7 @@ def form():
     message.body=full_message
     mail.send(message)"""
 
-    return render_template('response.html',message="Mailiniz başarıyla gönderildi.En kısa sürede sizinle iletişime geçeceğiz")
+    return render_template('response.html',message="Mailiniz başarıyla gönderildi.En kısa sürede sizinle iletişime geçeceğiz",contactdetail=contactdetail)
 @app.route('/changePassword',methods=['POST'])
 def changePassword():
     password=request.form.get("password")
@@ -432,7 +453,7 @@ def changePassword():
         cursor = mysql.connection.cursor()
         cursor.execute("UPDATE `users`  SET `password` = %(password)s  WHERE `ban`='0' AND `user_auth` = %(key)s",{'key':changepass,'password':result})  
         mysql.connection.commit()
-        return render_template('login.html',error="Şifreniz Başarıyla Değiştirildi.Yeni Şifrenizle Giriş Yapabilirsiniz")
+        return render_template('login.html',error="Şifreniz Başarıyla Değiştirildi.Yeni Şifrenizle Giriş Yapabilirsiniz",contactdetail=contactdetail)
 
 @app.route('/resetPassword',methods=['POST'])
 def resetPassword():
@@ -447,12 +468,12 @@ def resetPassword():
             message=Message("BrainSoup Şifre Yenileme İsteği",sender=myMail.userName,recipients=[email])
             message.body=full_message
             mail.send(message)
-            return render_template('reset.html',error="Şifre Yenileme Mailiniz Başarıyla Gönderildi")
+            return render_template('reset.html',error="Şifre Yenileme Mailiniz Başarıyla Gönderildi",contactdetail=contactdetail)
         else:
-            return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.")
+            return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",contactdetail=contactdetail)
 
     except :
-        return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.")
+        return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",contactdetail=contactdetail)
 
 ############## </Web Assitant Pages > #########################################################################################################################################
 
@@ -851,6 +872,61 @@ def updateSlide():
                 cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ") 
                 slidedetail=cursor.fetchall()
                 return render_template('slidesettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",slidedetail=slidedetail)
+            
+            
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/showContactUpdate' )
+def showContactUpdate():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ") 
+            contactdetail=cursor.fetchall()
+            return render_template('contactsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,contactdetail=contactdetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/updateContact' ,methods=['POST'])
+def updateContact():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            email=request.form.get("email")
+            phone=request.form.get("phone")
+            adress=request.form.get("adress")
+            twitter=request.form.get("twitter")
+            facebook=request.form.get("facebook")
+            instagram=request.form.get("instagram")
+            skype=request.form.get("skype")
+            linkedin=request.form.get("linkedin")
+
+        
+            try:
+                cursor.execute("UPDATE `contact`  SET `email` = %(email)s,`phone` = %(phone)s ,`adress` = %(adress)s,`twitter` = %(twitter)s ,`facebook` = %(facebook)s,`instagram` = %(instagram)s,`skype` = %(skype)s,`linkedin` = %(linkedin)s WHERE `id` = '1' ",{'email':email,'phone':phone,'adress':adress,'twitter':twitter,'facebook':facebook,'instagram':instagram,'skype':skype,'linkedin':linkedin})  
+                mysql.connection.commit()
+                cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ") 
+                contactdetail=cursor.fetchall()
+                return render_template('contactsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kayıt Başarılı Bir Şekilde Güncellendi",contactdetail=contactdetail)
+            except:
+                cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ") 
+                contactdetail=cursor.fetchall()
+                return render_template('contactsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",contactdetail=contactdetail)
             
             
         else:
