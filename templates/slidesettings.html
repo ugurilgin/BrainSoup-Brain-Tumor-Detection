@@ -1,0 +1,82 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Galeri Ayarları</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/updateSlide" method="post" role="form" class="php-email-form">
+                 
+                  <div class="form-group">
+                    <label for="image1">1.Resim</label>
+                    <input type="text" class="form-control" name="image1" id="image1"  value="{{slidedetail[0][1]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image2">2.Resim</label>
+                    <input type="text" class="form-control" name="image2" id="image2"  value="{{slidedetail[0][2]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image3">3.Resim</label>
+                    <input type="text" class="form-control" name="image3" id="image3"  value="{{slidedetail[0][3]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image4">4.Resim</label>
+                    <input type="text" class="form-control" name="image4" id="image4"  value="{{slidedetail[0][4]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image5">5.Resim</label>
+                    <input type="text" class="form-control" name="image5" id="image5"  value="{{slidedetail[0][5]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image6">6.Resim</label>
+                    <input type="text" class="form-control" name="image6" id="image6"  value="{{slidedetail[0][6]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image7">7.Resim</label>
+                    <input type="text" class="form-control" name="image7" id="image7"  value="{{slidedetail[0][7]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="image8">8.Resim</label>
+                    <input type="text" class="form-control" name="image8" id="image8"  value="{{slidedetail[0][8]}}"  placeholder="Ana Başlık"   />
+                    <div class="validate"></div>
+                  </div>
+                
+              
+                <div class="text-center"><button type="submit" class="btn btn-primary">Güncelle</button></div>
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          

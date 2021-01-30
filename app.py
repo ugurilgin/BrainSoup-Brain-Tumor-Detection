@@ -126,10 +126,12 @@ def index():
     indexdetail=cursor.fetchone()
     cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ")  
     aboutdetail=cursor.fetchone()
+    cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ")  
+    slidedetail=cursor.fetchone()
     if 'user_auth' in session:
-        return render_template('index.html',aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
+        return render_template('index.html',slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
     else:
-        return render_template('index.html',aboutdetail=aboutdetail,indexdetail=indexdetail)
+        return render_template('index.html',slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail)
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
@@ -794,6 +796,61 @@ def updateAbout():
                 cursor.execute("SELECT * FROM `whous` WHERE `id`='1' ") 
                 aboutdetail=cursor.fetchall()
                 return render_template('aboutsettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",aboutdetail=aboutdetail)
+            
+            
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/showSlideUpdate' )
+def showSlideUpdate():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ") 
+            slidedetail=cursor.fetchall()
+            return render_template('slidesettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,slidedetail=slidedetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/updateSlide' ,methods=['POST'])
+def updateSlide():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            image1=request.form.get("image1")
+            image2=request.form.get("image2")
+            image3=request.form.get("image3")
+            image4=request.form.get("image4")
+            image5=request.form.get("image5")
+            image6=request.form.get("image6")
+            image7=request.form.get("image7")
+            image8=request.form.get("image8")
+
+        
+            try:
+                cursor.execute("UPDATE `slide`  SET `image1` = %(image1)s,`image2` = %(image2)s ,`image3` = %(image3)s,`image4` = %(image4)s ,`image5` = %(image5)s,`image6` = %(image6)s,`image7` = %(image7)s,`image8` = %(image8)s  WHERE `id` = '1' ",{'image1':image1,'image2':image2,'image3':image3,'image4':image4,'image5':image5,'image6':image6,'image7':image7,'image8':image8})  
+                mysql.connection.commit()
+                cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ") 
+                slidedetail=cursor.fetchall()
+                return render_template('slidesettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kayıt Başarılı Bir Şekilde Güncellendi",slidedetail=slidedetail)
+            except:
+                cursor.execute("SELECT * FROM `slide` WHERE `id`='1' ") 
+                slidedetail=cursor.fetchall()
+                return render_template('slidesettings.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kayıt Başarılı Bir Şekilde Güncellenemedi",slidedetail=slidedetail)
             
             
         else:
