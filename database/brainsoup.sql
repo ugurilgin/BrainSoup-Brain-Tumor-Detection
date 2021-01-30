@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 22 Oca 2021, 13:03:19
+-- Üretim Zamanı: 30 Oca 2021, 19:46:05
 -- Sunucu sürümü: 10.4.16-MariaDB
 -- PHP Sürümü: 7.4.12
 
@@ -24,6 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `about`
+--
+
+CREATE TABLE `about` (
+  `title` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `detail` varchar(400) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `whyus` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `doctor` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `brain` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `cloud` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `about`
+--
+
+INSERT INTO `about` (`title`, `detail`, `whyus`, `doctor`, `brain`, `cloud`, `id`) VALUES
+('BRAİNSOUP WEB ASİSTANINA HOŞ GELDİNİZ', 'Beyin Tümörü Tespiti İçin MR Sonuçlarına Göre Doktorlara Yardımcı Olan Bir Web Asistandır.', 'Türkiyenin en iyi Yapay Zeka destekli beyin tümörü tespiti yapabilen web asistanıdır.Gerçek hastane verileriyle sistemimizi eğittiğimiz için size en doğru sonuçları gösteriyoruz.  ', 'Son Teknoloji Yapay Zekamızla doktorlara yardımcı oluyoruz', 'Beyin MR sonuçlarınızı yapay zeka programlarımızla inceliyoruz.Hastaneye gitmenize gerek kalmadan ön tanınızı koyuyoruz', 'Bulut desteğimiz sayesinde her hangi bir aplikasyonu indirmenize gerek kalmaksızın sistemimizi kullanabilirsiniz.', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `admin`
 --
 
@@ -40,6 +63,31 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `username`, `password`, `email`) VALUES
 (1, 'admin', 'admin', 'ugurilgin94@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `email` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `phone` varchar(30) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `adress` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `twitter` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `facebook` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `instagram` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `skype` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `linkedin` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `contact`
+--
+
+INSERT INTO `contact` (`id`, `email`, `phone`, `adress`, `twitter`, `facebook`, `instagram`, `skype`, `linkedin`) VALUES
+(1, 'ugurilgin94@gmail.com', '(111)-111-1111', 'Çorlu,Tekirdağ', '#', '#', '#', '#', '#');
 
 -- --------------------------------------------------------
 
@@ -115,6 +163,31 @@ INSERT INTO `patients` (`id`, `TC`, `name`, `surname`, `email`, `birthdate`, `da
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `slide`
+--
+
+CREATE TABLE `slide` (
+  `id` int(11) NOT NULL,
+  `image1` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image2` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image3` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image4` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image5` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image6` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image7` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image8` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `slide`
+--
+
+INSERT INTO `slide` (`id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`) VALUES
+(1, 'assets/img/gallery/gallery-1.jpg', 'assets/img/gallery/gallery-2.jpg', 'assets/img/gallery/gallery-3.jpg', 'assets/img/gallery/gallery-4.jpg', 'assets/img/gallery/gallery-5.jpg', 'assets/img/gallery/gallery-6.jpg', 'assets/img/gallery/gallery-7.jpg', 'assets/img/gallery/gallery-8.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `tumor`
 --
 
@@ -183,9 +256,42 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `ban`, `user_
 (9, 'Yeni', 'Kullanıcı', 'yeni@kullanici.com', 'e10adc3949ba59abbe56e057f20f883e', '0', '22a2bd8ffbd761adfbcd0d125d50b3af62a43fbe883f3cd7526ee635c4c30194', '0'),
 (10, 'Uğur Ilgın', ' Ilgın', 'sfsdfsf@dfsa.com', 'e10adc3949ba59abbe56e057f20f883e', '0', '8b67d2a0c1187cb29f77a121a34b5e2db1c729d610e489fbb46a5543da00f4dd', '0');
 
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `whous`
+--
+
+CREATE TABLE `whous` (
+  `id` int(11) NOT NULL,
+  `title` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `detail` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `title2` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `detail2` varchar(400) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `title3` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `detail3` varchar(400) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `title4` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `detail4` varchar(400) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `videolink` varchar(500) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image` varchar(250) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `whous`
+--
+
+INSERT INTO `whous` (`id`, `title`, `detail`, `title2`, `detail2`, `title3`, `detail3`, `title4`, `detail4`, `videolink`, `image`) VALUES
+(1, 'Hakkımızda', 'BrainSoup Web Asistanı olarak doktorların iş yoğunluklarına yardımcı olmak ve hastalarının erken tanı sisteminden faydalanabilmesi için yapay zeka sistemi geliştirdik.Geliştirdiğimiz yapay zeka sistemi yardımıyla sizlere en iyi sağlık hizmetini sunmaktan onur duyarız', 'Yapay Zeka', 'Beyin Tümörü alanında yapay zeka sistemiyle doktorlarımıza yardımcı oluyoruz.', 'Sağlık', 'Sağlığınızı sizden bile daha iyi koruyoruz.', 'Bulut Desteği', 'En iyi serverlarda en hızlı desteği sağlıyoruz.', 'https://www.youtube.com/watch?v=6iUJfwB1kEk', '');
+
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
+
+--
+-- Tablo için indeksler `about`
+--
+ALTER TABLE `about`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Tablo için indeksler `admin`
@@ -193,6 +299,12 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `ban`, `user_
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Tablo için indeksler `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Tablo için indeksler `email`
@@ -204,6 +316,12 @@ ALTER TABLE `email`
 -- Tablo için indeksler `patients`
 --
 ALTER TABLE `patients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `slide`
+--
+ALTER TABLE `slide`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -220,13 +338,31 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Tablo için indeksler `whous`
+--
+ALTER TABLE `whous`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
 --
+
+--
+-- Tablo için AUTO_INCREMENT değeri `about`
+--
+ALTER TABLE `about`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `admin`
 --
 ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `contact`
+--
+ALTER TABLE `contact`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -242,6 +378,12 @@ ALTER TABLE `patients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- Tablo için AUTO_INCREMENT değeri `slide`
+--
+ALTER TABLE `slide`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `tumor`
 --
 ALTER TABLE `tumor`
@@ -252,6 +394,12 @@ ALTER TABLE `tumor`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `whous`
+--
+ALTER TABLE `whous`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
