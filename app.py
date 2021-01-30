@@ -75,7 +75,7 @@ def uploadTumorFile():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], fullname))
             a=TumorExtractor(os.path.join(app.config['UPLOAD_FOLDER'], fullname),name)
             out=a.predict()
-            inimage="uploads/input/"+name+".jpg"
+            inimage="uploads/input/"+name+"."+filename.rsplit('.', 1)[1].lower()
             if (out=="Pozitif"):
                 outimage="uploads/output/yes/"+name+".jpg"
             else:

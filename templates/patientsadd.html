@@ -68,7 +68,7 @@
                         <input type="email" class="form-control" name="email" id="email" placeholder="Hastanın Mail Adresi" {% if email %} value="{{email}}" {% endif %} data-rule="email" data-msg="Lütfen geçerli bir mail giriniz" />
                     </div>
                     <div class="form-group">
-                      <input type="text" name="tcno" class="form-control" id="tcno" placeholder="Hastanın TC Nosu" {% if TCnosu %} value="{{TCnosu}}" {% endif %} data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
+                      <input type="text" name="tcno" class="form-control" id="tcno" placeholder="Hastanın TC Nosu" {% if TCnosu %} value="{{TCnosu}}" {% endif %}  maxlength="11" data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
                     </div>
                     <div class="form-group">
                       <input type="text" name="cinsiyet" class="form-control" id="cinsiyet" placeholder="Hastanın Cinsiyeti" {% if cinsiyet %} value="{{cinsiyet}}" {% endif %} data-rule="minlen:5" data-msg="En az 5 karakter olmalıdır" />

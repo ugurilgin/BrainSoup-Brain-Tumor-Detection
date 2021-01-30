@@ -60,7 +60,7 @@
 
           
             <div class="form-group">
-              <input type="text" name="tcno" class="form-control" id="tcno" placeholder="Hastanın Kayıtlı TC Kimlik No"  data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
+              <input type="text" name="tcno" class="form-control"  maxlength="11" id="tcno" placeholder="Hastanın Kayıtlı TC Kimlik No"  data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
               <a style="float: right;" href="{{url_for('showAddPatients')}}#register">Yeni Hasta Eklemek İçin Tıklayınız...</a></br>
             </div>
            
