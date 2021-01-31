@@ -933,6 +933,55 @@ def updateContact():
             return redirect(url_for('profile'))
     else:
         return redirect(url_for('login'))
+@app.route('/showUploadImage' )
+def showUploadImage():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/updateImageAdmin' ,methods=['POST'])
+def updateImageAdmin():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            try:
+                if request.method == 'POST':
+                    if 'file' not in request.files:
+                        flash('Seçili Dosya Yok')
+                        return redirect(url_for('index'))
+                file = request.files['file']
+                if file.filename == '':
+                    flash('Seçili Dosya Yok')
+                    return redirect(url_for('index'))
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Resim Başarılı Bir Şekilde Yüklendi Resim Adresi: static/uploads/input/"+filename)
+            except:
+               
+                return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Resim Yüklenemedi")
+            
+            
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
 ############## < /Admin Pages > ################################################################################################################################################
 
 

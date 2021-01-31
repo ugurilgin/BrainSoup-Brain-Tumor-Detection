@@ -1,0 +1,97 @@
+{% include "admin-header.html" %}
+<link href="{{ url_for('static', filename='assets/css/dragstyle.css') }}"  rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Resim Yükleyin</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/updateImageAdmin" method="post"  enctype=multipart/form-data>
+                 
+                <div class="form" >
+                  <input name="file" accept="image/x-png,image/jpeg" id="entry_value" ref="fileInput" type="file"  onchange="getFileName()">
+                  <div>     
+                      <img id="resim" src="{{ url_for('static', filename='assets/img/upload.png') }}" alt="upload" height="100" width="100" class="mx-2">
+                        MR Görüntüsünü Buraya Sürükleyiniz veya    
+                      <button class="btn bg-color-dblue btn-primary px-4 py-3">Dosyadan Seçin</button>
+                    
+                 
+                    
+                    </div>
+                    
+                </div>
+                
+              
+                <div class="text-center"><button style="background-color: #1977cc; margin-top: 25px;"  class="btn bg-color-dblue btn-primary px-4 py-3" name="Add" value="Add" type="submit">Resmi Yükle</button>
+          
+
+                </div>
+               
+
+                <div class="form-group">
+                  <label for="fileName">Resmin Adresi</label>
+                  <input type="text" class="form-control" name="fileName" id="fileName"  value=""  placeholder="Resmin Adresi"   />
+                  <div class="validate"></div>
+                </div>
+                  </form>
+                <script type="text/javascript">
+         
+                  $(document).ready(function(){
+                  
+                   
+                  $("#entry_value").change(function(event){
+                  var input = $(event.currentTarget);
+                  var file = input[0].files[0];
+                  var reader = new FileReader();
+                  reader.onload = function(e){
+                  image_base64 = e.target.result;
+                  
+                  document.getElementById('resim').src=image_base64;
+                  document.getElementById('resim').width="320";
+                  document.getElementById('resim').height="320";
+                  };
+                  reader.readAsDataURL(file);
+                  });
+                  });
+                  </script>
+                  <script>
+                 function getFileName()
+                {
+                 
+                var x = document.getElementById('entry_value');
+                document.getElementById('fileName').innerHTML = x.value.split('\\').pop();
+                document.getElementById('fileName').value ="static/uploads/input/"+ x.value.split('\\').pop();
+
+                }
+        
+                  </script>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+                {% include "admin-footer.html" %}      
+
+          
