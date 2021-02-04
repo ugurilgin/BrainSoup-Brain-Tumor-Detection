@@ -1,0 +1,69 @@
+{% include "header.html" %}
+
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <main id="main">
+        <br/><br/>
+
+  
+              
+                <section id="team" class="doctors">
+                  <div class="section-title">
+                    <h2>{{rows[1]}}  {{rows[2] }}</h2>
+                  </div>
+                  <div class="container">
+            
+                   
+
+                    <div class="row">
+                      <div class="col-lg-5 pr-md-5 pr-sm-0">
+                        <div class="container">
+                        <h2 class="mt-0 heading-border-top mb-3 font-weight-normal">Ben Kimim?</h2>
+                      </div>
+                    <div class="container">
+                    <p>{{rows[5]}}</p>
+                    </div>
+                    <div class="col-lg-0">
+                      <div class="member d-flex align-items-center">
+                    <div class="member-info">
+                      
+                      <div class="social">
+                        <a href="{{rows[7]}}"><i class="ri-twitter-fill"></i></a>
+                        <a href="{{rows[8]}}"><i class="ri-facebook-fill"></i></a>
+                        <a href="{{rows[9]}}"><i class="ri-instagram-fill"></i></a>
+                        <a href="{{rows[10]}}"> <i class="ri-linkedin-box-fill"></i> </a>
+                        
+                      </div>
+                      
+                    </div>
+                    
+                    </div>
+                  </div>
+                      
+                    </div>
+                    
+                    <div class="col-lg-7">
+                      <div class="images">
+                        <img class="img1 img-fluid" src="{{ url_for('static', filename=rows[6]) }} " alt="free Template">
+                      </div>
+                    </div>
+                      </div>
+            
+                  </div>
+                
+                </section><!-- End Doctors Section -->
+                    
+                 
+      
+               
+
+
+      
+             
+
+    </main>
+   
+    {% include "footer.html" %}
+
+    

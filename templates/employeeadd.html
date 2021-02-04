@@ -1,0 +1,110 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Çalışan Ayarları</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/EmployeeAdder" method="post" role="form" class="php-email-form">
+                <div class="form-group">
+                  <label for="image">Çalışanın Resmi</label></br>
+                   <input type="text" class="form-control" name="image" id="image"   {% if employeedetail %} value="{{employeedetail[0][6]}}" {% endif %}  placeholder="Resmin Adresi"   />                 
+                   
+                  <div class="validate"></div>
+                </div>
+                  <div class="form-group">
+                    <label for="name">Çalışanın Adı</label>
+                    <input type="text" class="form-control" name="name" id="name"   {% if employeedetail %} value="{{employeedetail[0][1]}}" {% endif %}  placeholder="Çalışanın Adı"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="surname">Çalışanın Soyadı</label>
+                    <input type="text" class="form-control" name="surname" id="surname"   {% if employeedetail %} value="{{employeedetail[0][2]}}" {% endif %}  placeholder="Çalışanın Soyadı"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="position">Çalışanın Çalıştığı Pozisyon</label>
+                    <input type="text" class="form-control" name="position" id="position"   {% if employeedetail %} value="{{employeedetail[0][3]}}" {% endif %}  placeholder="Çalışanın Çalıştığı Pozisyon"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="short">Kısa Öz Geçmiş</label>
+                    <textarea class="form-control" id="short" name="short" rows="5" data-rule="required" data-msg="Message" placeholder="Kısa Öz Geçmiş"> {% if employeedetail %} {{employeedetail[0][4]}} {% endif %}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="about">Tam Öz Geçmiş</label>
+                    <textarea class="form-control" id="about" name="about" rows="5" data-rule="required" data-msg="Message" placeholder="Tam Öz Geçmiş"> {% if employeedetail %} {{employeedetail[0][5]}} {% endif %}</textarea>
+                    
+                    <div class="validate"></div>
+                  </div>
+                
+                  
+                  <div class="form-group">
+                    <label for="twitter">Twitter</label>
+                    <input type="text" class="form-control" name="twitter" id="twitter"   {% if employeedetail %} value="{{employeedetail[0][7]}}" {% endif %}  placeholder="Twitter"   />                   
+                     <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" class="form-control" name="facebook" id="facebook"   {% if employeedetail %} value="{{employeedetail[0][8]}}" {% endif %}  placeholder="Facebook"   />                  
+                      <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="instagram">İnstagram</label>
+                    <input type="text" class="form-control" name="instagram" id="instagram"  {% if employeedetail %} value="{{employeedetail[0][9]}}" {% endif %}  placeholder="Instagram"   />                    
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="linkedin">Linkedin</label>
+                    <input type="text" class="form-control" name="linkedin" id="linkedin" {% if employeedetail %} value="{{employeedetail[0][10]}}" {% endif %}   placeholder="Linkedin"   />                    
+                    <div class="validate"></div>
+                  </div>
+                  <div hidden class="form-group">
+                    <input type="text" class="form-control" name="id" id="id" {% if employeedetail %} value="{{employeedetail[0][0]}}" {% endif %} placeholder="ID"  />
+                    <div class="validate"></div>
+                  </div>
+                  {% if id=="default" %}
+
+                  
+                  <div class="text-center"><button name="Add" value="Add" type="submit" class="btn btn-primary" style="float:left; ">Çalışanı Ekle</button>
+                   
+
+                  {% else %}
+
+                  <button name="Update" value="Update" type="submit" class="btn btn-warning" style="float:left; margin-left:10px; ">Çalışanı Güncelle</button></div>   
+                  <button name="Delete" value="Delete" type="submit" class="btn btn-danger" style="float:left; margin-left:10px;">Çalışanı Sil</button>
+                   
+                  {% endif %}
+              
+                
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+               
+                {% include "admin-footer.html" %}      
+
+          

@@ -1,0 +1,83 @@
+{% include "admin-header.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h1 class="h3 mb-4 text-gray-800">Referans Ayarları</h1>
+          </div>
+        </div>
+  
+       
+  
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                {% if error %}
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
+               
+                <br/><br/>
+
+               {% endif %}
+              <form action="/ReferanceAdder" method="post" role="form" class="php-email-form">
+                <div class="form-group">
+                  <label for="image">Referansın Resmi</label></br>
+                   <input type="text" class="form-control" name="image" id="image"   {% if employeedetail %} value="{{employeedetail[0][3]}}" {% endif %}  placeholder="Resmin Adresi"   />                 
+                   
+                  <div class="validate"></div>
+                </div>
+                <div hidden class="form-group">
+                  <input type="text" class="form-control" name="id" id="id" {% if employeedetail %} value="{{employeedetail[0][0]}}" {% endif %} placeholder="ID"  />
+                  <div class="validate"></div>
+                </div>
+                  <div class="form-group">
+                    <label for="name">Referansın Adı</label>
+                    <input type="text" class="form-control" name="name" id="name"   {% if employeedetail %} value="{{employeedetail[0][1]}}" {% endif %}  placeholder="Referansın Adı"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="surname">Referansın Soyadı</label>
+                    <input type="text" class="form-control" name="surname" id="surname"   {% if employeedetail %} value="{{employeedetail[0][2]}}" {% endif %}  placeholder="Referansın Soyadı"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="position">Referansın Çalıştığı Pozisyon</label>
+                    <input type="text" class="form-control" name="position" id="position"   {% if employeedetail %} value="{{employeedetail[0][4]}}" {% endif %}  placeholder="Referansın Çalıştığı Pozisyon"   />
+                    <div class="validate"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="short">Referansın Yorumu</label>
+                    <textarea class="form-control" id="short" name="short" rows="5" data-rule="required" data-msg="Message" placeholder="Yorumu"> {% if employeedetail %} {{employeedetail[0][5]}} {% endif %}</textarea>
+                    <div class="validate"></div>
+                  </div>
+                  
+                  {% if id=="default" %}
+
+                  
+                  <div class="text-center"><button name="Add" value="Add" type="submit" class="btn btn-primary" style="float:left; ">Referansı Ekle</button>
+                   
+
+                  {% else %}
+
+                  <button name="Update" value="Update" type="submit" class="btn btn-warning" style="float:left; margin-left:10px; ">Referansı Güncelle</button></div>   
+                  <button name="Delete" value="Delete" type="submit" class="btn btn-danger" style="float:left; margin-left:10px;">Referansı Sil</button>
+                    
+                  {% endif %}
+              
+                
+              </form>
+  
+            </div>
+  
+          
+  
+      </section><!-- End Contact Section -->
+
+                </div>
+                <!-- /.container-fluid -->
+               
+                {% include "admin-footer.html" %}      
+
+          

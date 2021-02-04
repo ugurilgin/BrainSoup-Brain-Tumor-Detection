@@ -19,7 +19,8 @@
             <div class="col-lg-8 mt-5 mt-lg-0">
                 {% if error %}
                 <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b></a>
-               
+            </br>
+                <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ link }}</b></a>
                 <br/><br/>
 
                {% endif %}
@@ -28,7 +29,7 @@
                 <div class="form" >
                   <input name="file" accept="image/x-png,image/jpeg" id="entry_value" ref="fileInput" type="file"  onchange="getFileName()">
                   <div>     
-                      <img id="resim" src="{{ url_for('static', filename='assets/img/upload.png') }}" alt="upload" height="100" width="100" class="mx-2">
+                      <img id="showimage" src="{{ url_for('static', filename='assets/img/upload.png') }}" alt="upload" height="100" width="100" class="mx-2">
                         MR Görüntüsünü Buraya Sürükleyiniz veya    
                       <button class="btn bg-color-dblue btn-primary px-4 py-3">Dosyadan Seçin</button>
                     
@@ -63,9 +64,9 @@
                   reader.onload = function(e){
                   image_base64 = e.target.result;
                   
-                  document.getElementById('resim').src=image_base64;
-                  document.getElementById('resim').width="320";
-                  document.getElementById('resim').height="320";
+                  document.getElementById('showimage').src=image_base64;
+                  document.getElementById('showimage').width="320";
+                  document.getElementById('showimage').height="320";
                   };
                   reader.readAsDataURL(file);
                   });
@@ -77,7 +78,7 @@
                  
                 var x = document.getElementById('entry_value');
                 document.getElementById('fileName').innerHTML = x.value.split('\\').pop();
-                document.getElementById('fileName').value ="static/uploads/input/"+ x.value.split('\\').pop();
+                document.getElementById('fileName').value ="uploads/input/"+ x.value.split('\\').pop();
 
                 }
         

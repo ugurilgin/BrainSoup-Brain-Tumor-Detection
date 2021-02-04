@@ -131,10 +131,41 @@ def index():
     slidedetail=cursor.fetchone()
     cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
     contactdetail=cursor.fetchone()
+    cursor.execute("SELECT * FROM `employee`  WHERE `ban`='0' LIMIT 4 ")  
+    employeedetail=cursor.fetchall()
+    cursor.execute("SELECT * FROM `referance`  WHERE `ban`='0' ")  
+    referancedetail=cursor.fetchall()
     if 'user_auth' in session:
-        return render_template('index.html',contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
+        return render_template('index.html',referancedetail=referancedetail,employeedetail=employeedetail,contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail,isim=openName,menu="menu",admin=adminstatus)
     else:
-        return render_template('index.html',contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail)
+        return render_template('index.html',referancedetail=referancedetail,employeedetail=employeedetail,contactdetail=contactdetail,slidedetail=slidedetail,aboutdetail=aboutdetail,indexdetail=indexdetail)
+@app.route('/employeeViewerDetail',defaults={'id':'default'})
+@app.route('/employeeViewerDetail/<id>')
+def employeeViewerDetail(id):
+    if id=="default":
+        return redirect(url_for('allemployee'))
+    elif id!="default":
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM `employee`  WHERE `ban` LIKE '0' AND `id` LIKE %(id)s ",{'id': id})   
+        rows=cursor.fetchone()
+        cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+        contactdetail=cursor.fetchone()
+        if 'user_auth' in session:
+            return render_template('employeeViewer.html',rows=rows,isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail)
+        else:
+            return render_template('employeeViewer.html',rows=rows,contactdetail=contactdetail)
+@app.route('/allemployee')
+def allemployee():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM `employee`  WHERE `ban`='0' ")  
+    employeedetail=cursor.fetchall()
+    cursor.execute("SELECT * FROM `contact` WHERE `id`='1' ")  
+    contactdetail=cursor.fetchone()
+    if 'user_auth' in session:
+        return render_template('allemployee.html',employeedetail=employeedetail,isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail)
+    else:
+        return render_template('allemployee.html',employeedetail=employeedetail,contactdetail=contactdetail)
+
 @app.route('/terms')
 def terms():
     cursor = mysql.connection.cursor()
@@ -496,11 +527,15 @@ def admin():
             tumors=cursor.fetchall()
             cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0'  ")  
             emails=cursor.fetchall()
+            cursor.execute("SELECT count(`id`) FROM `employee` WHERE `ban` LIKE '0'  ")  
+            employee=cursor.fetchall()
+            cursor.execute("SELECT count(`id`) FROM `referance` WHERE `ban` LIKE '0'  ")  
+            referance=cursor.fetchall()
             cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
             unread=cursor.fetchall()
             cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5")  
             allmessage=cursor.fetchall()
-            return render_template('admin.html',isim=openName,countuser=users[0][0],countpatient=patients[0][0],counttumor=tumors[0][0],countemail=emails[0][0],unread=unread[0][0],allmessage=allmessage)
+            return render_template('admin.html',isim=openName,countuser=users[0][0],countpatient=patients[0][0],counttumor=tumors[0][0],countemail=emails[0][0],countemployee=employee[0][0],countreferance=referance[0][0],unread=unread[0][0],allmessage=allmessage)
         else:
             return redirect(url_for('profile'))
     else:
@@ -964,20 +999,195 @@ def updateImageAdmin():
                 if request.method == 'POST':
                     if 'file' not in request.files:
                         flash('Seçili Dosya Yok')
-                        return redirect(url_for('index'))
+                        return redirect(url_for('showUploadImage'))
                 file = request.files['file']
                 if file.filename == '':
                     flash('Seçili Dosya Yok')
-                    return redirect(url_for('index'))
+                    return redirect(url_for('showUploadImage'))
                 if file and allowed_file(file.filename):
                     filename = secure_filename(file.filename)
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Resim Başarılı Bir Şekilde Yüklendi Resim Adresi: static/uploads/input/"+filename)
+                return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Resim Başarılı Bir Şekilde Yüklendi",link="Resim Adresi: uploads/input/"+filename)
             except:
                
                 return render_template('uploadImage.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Resim Yüklenemedi")
             
             
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/showEmployeeView' )
+def showEmployeeView():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            cursor.execute("SELECT * FROM `employee`  WHERE `ban` LIKE '0' ") 
+            datas=cursor.fetchall()
+            return render_template('employeeview.html',isim=openName,unread=unread[0][0],allmessage=allmessage,datas=datas)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/showReferanceView' )
+def showReferanceView():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            cursor.execute("SELECT * FROM `referance`  WHERE `ban` LIKE '0'") 
+            datas=cursor.fetchall()
+            return render_template('referanceview.html',isim=openName,unread=unread[0][0],allmessage=allmessage,datas=datas)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+       
+@app.route('/addEmployeeAdmin' ,defaults={'id':'default'})
+@app.route('/addEmployeeAdmin/<id>' )
+def addEmployeeAdmin(id):
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            if(id=="default"):
+                return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=id)
+            else:
+                cursor.execute("SELECT * FROM `employee` WHERE id LIKE %(id)s",{'id':id}) 
+                employeedetail=cursor.fetchall()
+                return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=id,employeedetail=employeedetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/EmployeeAdder',methods=['POST'] )
+def EmployeeAdder():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            id=request.form.get("id")
+            name=request.form.get("name")
+            surname=request.form.get("surname")
+            position=request.form.get("position")
+            image=request.form.get("image")
+            short=request.form.get("short")
+            about=request.form.get("about")
+            twitter=request.form.get("twitter")
+            facebook=request.form.get("facebook")
+            instagram=request.form.get("instagram")
+            linkedin=request.form.get("linkedin")
+            if 'Add' in request.form:
+                try:
+              
+                    cursor.execute("INSERT INTO `employee`( `name`, `surname`, `position`, `short`, `about`, `image`, `twitter`, `facebook`, `instagram`, `linkedin`,`ban`) VALUES( %(name)s,%(surname)s,%(position)s,%(short)s,%(about)s,%(image)s,%(twitter)s,%(facebook)s,%(instagram)s,%(linkedin)s,%(ban)s)",{'name': name,'surname':surname,'position':position,'short':short,'about':about,'image':image,'twitter':twitter,'facebook':facebook,'instagram':instagram,'linkedin':linkedin,'ban':'0'})  
+                    mysql.connection.commit()
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Yeni Çalışan Başarılı Bir Şekilde Kaydedildi")
+                except:
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Hata Çalışan Kaydedilemedi.")
+            elif 'Update' in request.form:
+                try:
+                    cursor.execute("UPDATE `employee` SET `name`= %(name)s,`surname`= %(surname)s,`position`= %(position)s,`short`= %(short)s,`about`= %(about)s,`image`= %(image)s,`twitter`= %(twitter)s,`facebook`= %(facebook)s,`instagram`= %(instagram)s,`linkedin`= %(linkedin)s WHERE id LIKE %(id)s",{'name': name,'surname':surname,'position':position,'short':short,'about':about,'image':image,'twitter':twitter,'facebook':facebook,'instagram':instagram,'linkedin':linkedin,'ban':'0','id':id})  
+                    mysql.connection.commit()
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Yeni Çalışan Başarılı Bir Şekilde Güncellendi")
+                except:
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Hata Çalışan Kaydı Güncellenemedi.")
+            elif 'Delete' in request.form:
+                try:
+                    cursor.execute("UPDATE `employee`  SET `ban` = %(ban)s  WHERE `id` = %(id)s",{'ban':'1','id':id})  
+                    mysql.connection.commit()
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Kayıt Başarılı Bir Şekilde Silindi")
+                except:
+                    return render_template('employeeadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Kayıt Silinemedi")
+
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/addReferanceAdmin' ,defaults={'id':'default'})
+@app.route('/addReferanceAdmin/<id>' )
+def addReferanceAdmin(id):
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            if(id=="default"):
+                return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=id)
+            else:
+                cursor.execute("SELECT * FROM `referance` WHERE id LIKE %(id)s",{'id':id}) 
+                employeedetail=cursor.fetchall()
+                return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=id,employeedetail=employeedetail)
+        else:
+            return redirect(url_for('profile'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/ReferanceAdder',methods=['POST'] )
+def ReferanceAdder():
+    if 'user_auth' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
+            unread=cursor.fetchall()
+            cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5") 
+            allmessage=cursor.fetchall()
+            id=request.form.get("id")
+            name=request.form.get("name")
+            surname=request.form.get("surname")
+            position=request.form.get("position")
+            image=request.form.get("image")
+            comment=request.form.get("short")
+          
+            if 'Add' in request.form:
+                try:
+              
+                    cursor.execute("INSERT INTO `referance`( `name`, `surname`, `image`, `position`, `comment`,`ban`) VALUES( %(name)s,%(surname)s,%(image)s,%(position)s,%(comment)s,%(ban)s)",{'name': name,'surname':surname,'image':image,'position':position,'comment':comment,'ban':'0'})  
+                    mysql.connection.commit()
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Yeni Referans Başarılı Bir Şekilde Kaydedildi")
+                except:
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Hata Referans Kaydedilemedi.")
+            elif 'Update' in request.form:
+                try:
+                    cursor.execute("UPDATE `referance` SET `name`= %(name)s,`surname`= %(surname)s,`image`= %(image)s,`position`= %(position)s,`comment`= %(comment)s WHERE id LIKE %(id)s",{'name': name,'surname':surname,'image':image,'position':position,'comment':comment,'ban':'0','id':id})  
+                    mysql.connection.commit()
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Yeni Referans Başarılı Bir Şekilde Güncellendi")
+                except:
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Hata Referans Kaydı Güncellenemedi.")
+            elif 'Delete' in request.form:
+                try:
+                    cursor.execute("UPDATE `referance`  SET `ban` = %(ban)s  WHERE `id` = %(id)s",{'ban':'1','id':id})  
+                    mysql.connection.commit()
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Kayıt Başarılı Bir Şekilde Silindi")
+                except:
+                    return render_template('referanceadd.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id="default",error="Kayıt Silinemedi")
+
         else:
             return redirect(url_for('profile'))
     else:

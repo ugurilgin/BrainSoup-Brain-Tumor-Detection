@@ -122,13 +122,13 @@
                 <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Çalışan İşlemleri</h6>
-                        <a class="collapse-item" href="login.html">Çalışan Ekle</a>
-                        <a class="collapse-item" href="register.html">Çalışanları Görüntüle</a>
+                        <a class="collapse-item" href="{{url_for('addEmployeeAdmin')}}">Çalışan Ekle</a>
+                        <a class="collapse-item" href="{{url_for('showEmployeeView')}}">Çalışanları Görüntüle</a>
                         
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Referans İşlemleri</h6>
-                        <a class="collapse-item" href="404.html">Referans Ekle</a>
-                        <a class="collapse-item" href="blank.html">Referansları Görüntüle</a>
+                        <a class="collapse-item" href="{{url_for('addReferanceAdmin')}}">Referans Ekle</a>
+                        <a class="collapse-item" href="{{url_for('showReferanceView')}}">Referansları Görüntüle</a>
                     </div>
                 </div>
             </li>

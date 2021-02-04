@@ -106,48 +106,33 @@
         </div>
 
         <div class="row">
-
+          {% for rows in employeedetail %}
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-1.jpg') }} " class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ url_for('static', filename=rows[6]) }} " class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4>Uğur Ilgın</h4>
-                <span>Takım Lideri</span>
-                <p>Yapay zeka uygulamamızı yapan mühendisimizdir.</p>
+                <a href="/employeeViewerDetail/{{rows[0]}}"><h4>{{rows[1]}}  {{rows[2] }}</h4></a>
+                <span>{{rows[3]}}</span>
+                <p>{{rows[4]}}.</p>
                 <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                  <a href="{{rows[7]}}"><i class="ri-twitter-fill"></i></a>
+                  <a href="{{rows[8]}}"><i class="ri-facebook-fill"></i></a>
+                  <a href="{{rows[9]}}"><i class="ri-instagram-fill"></i></a>
+                  <a href="{{rows[10]}}"> <i class="ri-linkedin-box-fill"></i> </a>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ url_for('static', filename='assets/img/doctors/doctors-2.jpg') }} " class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Beyin Tümörü Algılayan AI</h4>
-                <span>Beyin ve Sinir Cerrahi</span>
-                <p>Doktorlarımıza yardımcı olan web asistanımızdır</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-       
-
-         
+          {% endfor %}
+        
+      
 
         </div>
 
       </div>
+      <div style="float: center;" class="text-center">
+      </br></br> <a href="{{url_for('allemployee')}}" class="button large hpbottom">Tüm Personelleri Görüntüle</a>
+    </div>
     </section><!-- End Doctors Section -->
 
     
@@ -157,47 +142,21 @@
       <div class="container">
 
         <div class="owl-carousel testimonials-carousel">
-
+          {% for rows in referancedetail %}
           <div class="testimonial-wrap">
             <div class="testimonial-item">
-              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-1.jpg') }} " class="testimonial-img" alt="">
-              <h3>Saul Goodman</h3>
-              <h4>Ceo &amp; Founder</h4>
+              <img src="{{ url_for('static', filename=rows[3]) }} " class="testimonial-img" alt="">
+              <h3>{{rows[1]}}  {{rows[2] }}</h3>
+              <h4> {{rows[4] }}</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Vay,Bu web asistanının yapay zeka doktorlarını çok beğendim.Keşke Amerikada'da böyle bir hizmet olsaydı.
+                {{rows[5] }}
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
           </div>
-
-          <div class="testimonial-wrap">
-            <div class="testimonial-item">
-              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-2.jpg') }} " class="testimonial-img" alt="">
-              <h3>Sara Wilsson</h3>
-              <h4>Designer</h4>
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Beynimdeki tümörü erkenden tespit edebilen ve bu sayede hayatımı kurtaran BrainSoup Web Asistanına çok teşekkür ederim.
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-            </div>
-          </div>
-
-          <div class="testimonial-wrap">
-            <div class="testimonial-item">
-              <img src="{{ url_for('static', filename='assets/img/testimonials/testimonials-3.jpg') }} " class="testimonial-img" alt="">
-              <h3>Jena Karlis</h3>
-              <h4>Store Owner</h4>
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                BrainSoup Web Asistanını yardımıyla hastalarıma en hızlı ve en doğru teshişi koyuyorum
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-            </div>
-          </div>
-
-          
+          {% endfor %}
+    
         </div>
 
       </div>

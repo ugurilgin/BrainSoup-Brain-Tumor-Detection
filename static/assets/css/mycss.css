@@ -1,0 +1,27 @@
+.form button[type="submit"] {
+  background: #1977cc;
+  border: 0;
+  padding: 10px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.form button[type="submit"]:hover {
+  background: #1c84e3;
+}
+
+.form input, .form textarea, .form select {
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+  padding: 10px !important;
+}
+
+.form input:focus, .form textarea:focus, .form select:focus {
+  border-color: #1977cc;
+}
+
+.form input, .form select {
+  height: 44px;
+}

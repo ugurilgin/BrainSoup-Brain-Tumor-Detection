@@ -1,0 +1,96 @@
+{% include "header.html" %}
+
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <main id="main">
+        <br/><br/>
+
+  
+              
+                <section id="team" class="doctors">
+                  <div class="container">
+            
+                    <div class="section-title">
+                      <h2>Tüm Personellerimiz</h2>
+                <p>Hastanemizde çalışan tüm personelleri listesini görüntüleyebilir.Öz geçmişlerine ulaşabilirsiniz.</p>
+                    </div>
+
+
+                    <div class="container mt-2 mb-2" style="margin:auto;">
+      
+                      <table  cellspacing="0" width="100%"
+                        data-toggle="table"
+                        data-pagination="true"
+                        data-search="true"
+                        
+                        >
+  
+                        <thead>
+                            <tr>
+                              <th class="th-sm" data-field="tc" data-sortable="true">Personeller
+                        
+                              </th>
+                            
+                            </tr>
+                          </thead>
+                          <tbody>
+                          
+                            {% for rows in employeedetail %}
+                            <tr>
+                              <td> <div class="row" >
+                      
+                                <div class="col-lg-12">
+                                  <div class="member d-flex align-items-center">
+                                    <div class="pic"><img  src="{{ url_for('static', filename=rows[6]) }} " class="img-fluid" alt=""></div>
+                                    <div class="member-info">
+                                      <a  href="/employeeViewerDetail/{{rows[0]}}"><h4>{{rows[1]}}  {{rows[2] }}</h4></a>
+                                      <span >{{rows[3]}}</span>
+                                      <p >{{rows[4]}}</p>
+                                      <div class="social">
+                                        <a href="{{rows[7]}}"><i class="ri-twitter-fill"></i></a>
+                                        <a href="{{rows[8]}}"><i class="ri-facebook-fill"></i></a>
+                                        <a href="{{rows[9]}}"><i class="ri-instagram-fill"></i></a>
+                                        <a href="{{rows[10]}}"> <i class="ri-linkedin-box-fill"></i> </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                               
+                               </div></td>
+                             
+  
+                          
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      
+                        </table>
+                    
+                  </div>
+                  <script>
+                      $(document).ready(function () {
+                        $('#dtBasicExample').DataTable();
+                        $('.dataTables_length').addClass('bs-select');
+                      });
+                          </script>
+
+                   
+            
+                  </div>
+                
+                </section><!-- End Doctors Section -->
+                    
+                 
+      
+               
+
+
+      
+             
+
+    </main>
+   
+    {% include "footer.html" %}
+
+    
