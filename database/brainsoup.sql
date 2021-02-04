@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 30 Oca 2021, 19:46:05
+-- Üretim Zamanı: 04 Şub 2021, 18:02:46
 -- Sunucu sürümü: 10.4.16-MariaDB
 -- PHP Sürümü: 7.4.12
 
@@ -127,6 +127,37 @@ INSERT INTO `email` (`id`, `fullname`, `email`, `subject`, `message`, `date`, `b
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `employee`
+--
+
+CREATE TABLE `employee` (
+  `id` int(11) NOT NULL,
+  `name` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `surname` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `position` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `short` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `about` text COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image` varchar(500) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `twitter` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `facebook` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `instagram` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `linkedin` varchar(300) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `ban` varchar(2) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `employee`
+--
+
+INSERT INTO `employee` (`id`, `name`, `surname`, `position`, `short`, `about`, `image`, `twitter`, `facebook`, `instagram`, `linkedin`, `ban`) VALUES
+(1, 'Uğur', 'Ilgın', 'Takım Lideri & Programmer', 'Yapay zeka uygulamamızı yapan mühendisimizdir.  ', 'I am experienced in Programming(Mobile and Desktop and Web ) and Penetraion Testing .I created project over 10 and I worked many project about desktop and mobile app.I learned too much information about Cyber Security from Cybrary ,Udemy,Edx,Coursera etc.I love Computer Programming since I was a teenager.I created first game at High School.I hacked many vulnerable machine on Hackthebox and Vulnhub etc at University .After that day I try to improve my skills everytime.\r\n\r\n  ', 'assets/img/doctors/doctors-1.jpg', '#', 'https://www.facebook.com/profile.php?id=1627833141', 'https://www.instagram.com/ilginugurr/', 'https://www.linkedin.com/in/ugur-ilgin/', '0'),
+(2, 'Beyin Tümörü', ' Algılayan AI', 'Beyin ve Sinir Cerrahi', 'Doktorlarımıza yardımcı olan web asistanımızdır', 'Doktorlarımıza yardımcı olan web asistanımızdır', 'assets/img/doctors/doctors-2.jpg', '#', '#', '#', '#', '0'),
+(3, 'Test', 'Test', 'Test', '   Test ', '   Test ', 'AI4H_Heart_16x9.jpg', 'Test', 'Test', 'Test', 'Test', '0'),
+(4, 'Uğur Ilgın', ' Ilgın', 'Test', ' ', ' ', 'AI4H_Heart_16x9.jpg', '', '', '', '', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `patients`
 --
 
@@ -158,7 +189,34 @@ INSERT INTO `patients` (`id`, `TC`, `name`, `surname`, `email`, `birthdate`, `da
 (8, '92345978901', 'Hacı Ahmet', 'Çelebi', 'hagi@ggg.com', '1970-10-05', '2020-12-18', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '0', 'Erkek'),
 (9, '92945678908', 'Mustafa Ali', 'Dal', 'musti@hotmail.com', '1960-12-08', '2020-12-18', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '0', 'Erkek'),
 (10, '78375678901', 'Nurcan', 'Dal', 'nurcdal@hotmail.com', '1965-10-05', '2020-12-18', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '0', 'Kadın'),
-(11, '12348678908', 'New2', 'New', 'newugurilgin94@gmail.com', '1980-06-09', '2021-01-05', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '1', 'Erkek');
+(11, '12348678908', 'New2', 'New', 'newugurilgin94@gmail.com', '1980-06-09', '2021-01-05', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '1', 'Erkek'),
+(12, '88111111199', 'Yeni ', 'Hasta', 'yenihasta@hotmail.com', '2021-02-18', '2021-02-04', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', '0', 'Kadın');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `referance`
+--
+
+CREATE TABLE `referance` (
+  `id` int(11) NOT NULL,
+  `name` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `surname` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `image` varchar(500) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `position` varchar(125) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `comment` varchar(500) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `ban` varchar(1) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+--
+-- Tablo döküm verisi `referance`
+--
+
+INSERT INTO `referance` (`id`, `name`, `surname`, `image`, `position`, `comment`, `ban`) VALUES
+(1, '1Saul', '2Goodman', '0assets/img/testimonials/testimonials-1.jpg', '3Ceo & Founder', '4Vay,Bu web asistanının yapay zeka doktorlarını çok beğendim.Keşke Amerikada\'da böyle bir hizmet olsaydı. ', '0'),
+(2, 'Sara', 'Wilsson', 'assets/img/testimonials/testimonials-2.jpg', 'Designer', 'Beynimdeki tümörü erkenden tespit edebilen ve bu sayede hayatımı kurtaran BrainSoup Web Asistanına çok teşekkür ederim.\r\n', '0'),
+(3, 'Jena', 'Karlis', 'assets/img/testimonials/testimonials-3.jpg', 'Doctor', 'BrainSoup Web Asistanını yardımıyla hastalarıma en hızlı ve en doğru teshişi koyuyorum\r\n', '0'),
+(4, 'Test', 'Test', 'AI4H_Heart_16x9.jpg', 'Test', ' ', '0');
 
 -- --------------------------------------------------------
 
@@ -219,10 +277,10 @@ INSERT INTO `tumor` (`id`, `TC`, `date`, `imgloc`, `tumorloc`, `doctor`, `result
 (8, '92345978901', '2020-10-05', '', '', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Erkek', '1970-10-05', '0'),
 (9, '92945678908', '2020-12-08', '', '', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Erkek', '1960-12-08', '0'),
 (10, '78375678901', '2020-10-05', '', '', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Kadın', '1965-10-05', '0'),
-(11, '12345678901', '2021-01-02', 'uploads/input/be0f15fe0b9367838ba8fac61e25e43ff97c11e155673766fd0013458aceb59e.jpg', 'uploads/output/no/be0f15fe0b9367838ba8fac61e25e43ff97c11e155673766fd0013458aceb59e.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Negatif', 'Erkek', '1980-06-01', '1'),
+(11, '12345678901', '2021-01-02', 'uploads/input/be0f15fe0b9367838ba8fac61e25e43ff97c11e155673766fd0013458aceb59e.jpg', 'uploads/output/no/be0f15fe0b9367838ba8fac61e25e43ff97c11e155673766fd0013458aceb59e.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Negatif', 'Erkek', '1980-06-01', '0'),
 (12, '92345678901', '2021-01-05', 'uploads/input/dc98e6bbe7a61b3cc0535ac6a78cb41a74fb95c273bcf4ed5819e4a4ba5754fc.jpg', 'uploads/output/yes/dc98e6bbe7a61b3cc0535ac6a78cb41a74fb95c273bcf4ed5819e4a4ba5754fc.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Kadın', '1954-06-18', '0'),
-(13, '12345678901', '2021-01-05', 'uploads/input/020755eb58806f35c1d1997f8c8494f72dcc51353b88bfeaeea159f0d2aaa02d.jpg', 'uploads/output/yes/020755eb58806f35c1d1997f8c8494f72dcc51353b88bfeaeea159f0d2aaa02d.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Erkek', '1980-06-01', '1'),
-(14, '00000000000', '2021-01-07', 'uploads/input/bc4f7d55a834b7ef844608c1f628cc8b0b29978d7df84f132ce87c4743f1fc7e.jpg', 'uploads/output/yes/bc4f7d55a834b7ef844608c1f628cc8b0b29978d7df84f132ce87c4743f1fc7e.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', '', '', '1');
+(13, '12345678901', '2021-01-05', 'uploads/input/020755eb58806f35c1d1997f8c8494f72dcc51353b88bfeaeea159f0d2aaa02d.jpg', 'uploads/output/yes/020755eb58806f35c1d1997f8c8494f72dcc51353b88bfeaeea159f0d2aaa02d.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', 'Erkek', '1980-06-01', '0'),
+(14, '00000000000', '2021-01-07', 'uploads/input/7414154ec5cbc831332d65e16365122299cccb23cf14b729d54ed1e5dfd67d14.png', 'uploads/output/yes/7414154ec5cbc831332d65e16365122299cccb23cf14b729d54ed1e5dfd67d14.jpg', '4277344e78d34f4f80b2e344599e24b168a71fb496d5e178d6e02785bf7ab2d8', 'Pozitif', '', '', '0');
 
 -- --------------------------------------------------------
 
@@ -313,9 +371,21 @@ ALTER TABLE `email`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Tablo için indeksler `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Tablo için indeksler `patients`
 --
 ALTER TABLE `patients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `referance`
+--
+ALTER TABLE `referance`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -372,10 +442,22 @@ ALTER TABLE `email`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- Tablo için AUTO_INCREMENT değeri `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `referance`
+--
+ALTER TABLE `referance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `slide`
