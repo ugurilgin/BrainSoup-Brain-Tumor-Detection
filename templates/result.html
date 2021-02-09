@@ -58,12 +58,19 @@
             {% endif %}
             
 
-          
+            <div class="form-group">
+              <select name="result" class="form-control" id="result"  >
+                <option value="{{result}}">Tümör Sonucu: {{result}}</option> 
+                <option value="Pozitif">Pozitif</option>
+                <option value="Negatif">Negatif</option>
+                
+              </select>
+              </div>
             <div class="form-group">
               <input type="text" name="tcno" class="form-control"  maxlength="11" id="tcno" placeholder="Hastanın Kayıtlı TC Kimlik No"  data-rule="minlen:11" data-rule="maxlen:11" pattern="[0-9]{11}"  data-msg="TC Kimlik No 11 karakter olmalıdır" />
               <a style="float: right;" href="{{url_for('showAddPatients')}}#register">Yeni Hasta Eklemek İçin Tıklayınız...</a></br>
             </div>
-           
+            
             <div class="text-center"><button type="submit">Kaydet</button></div>
             
           </form>

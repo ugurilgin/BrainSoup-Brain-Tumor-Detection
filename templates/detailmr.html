@@ -2,15 +2,16 @@
 
 <br/><br/><br/><br/><br/>
 
-<button style="float: right; margin-right:10px;" class="btn btn-primary hidden-print" onclick="printDiv('main')"><span class="glyphicon glyphicon-print" ></span> Yazdır</button></br>
-    <main id="main">
+<button style="float: right; margin-right:10px;" class="btn btn-primary hidden-print" onclick="printDiv('main')"><span class="glyphicon glyphicon-print" ></span> Yazdır</button>
+
+<main id="main">
       
       
         <section>
           <div class="container" width="100%">
       
             <div class="section-title">
-                 
+            </br>
               <h2>MR Raporu</h2>
               
           
@@ -70,9 +71,69 @@
         <input type="text" class="form-control" name="tc" id="tc"  value="{{patients[1]}}"  placeholder="TC"  />
         <div class="validate"></div>
       </div>
+      <div hidden class="form-group">
+        <input type="text" class="form-control" name="id" id="id"  value="{{patients[0]}}"  placeholder="TC"  />
+        <div class="validate"></div>
+      </div>
     <div class="text-center" ><button name="Delete" value="Delete" type="submit" style="background: #cc1919;color: white;">Raporu Sil</button></div>
                                         
     </form>
+    <main id="mymain">
+      <section id="Form" class="contact">
+        <div class="section-title">
+                       
+          <h2>MR Sonucu Güncelle</h2>
+          
+      
+      
+      
+       </div>
+      <div class="container">
+        <div class="row mt-5">
+      
+          
+      
+          <div class="col-lg-8 mt-5 mt-lg-0" style="margin:auto;">
+      
+            <form action="/updateResultTumor" method="post"  class="form">
+              {% if error %}
+              <a style="float: left;color: rgb(11, 72, 240);"> <b>{{ error }}</b> </a>
+              {% endif %}
+              {% if link %}<a style="float: right;" href="{{url_for('showViewMR')}}"> Tüm MR Raporlarını Görüntülemek için Tıklayınız...</a>
+              <br/><br/>
+             
+              
+              {% endif %}
+              
+              <div hidden class="form-group">
+                <input type="text" class="form-control" name="tc" id="tc"  value="{{patients[1]}}"  placeholder="TC"  />
+                <div class="validate"></div>
+              </div>
+              <div hidden class="form-group">
+                <input type="text" class="form-control" name="id" id="id"  value="{{patients[0]}}"  placeholder="TC"  />
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <select name="result" class="form-control" id="result"  >
+                  <option value="{{tumor[6]}}">Tümör Sonucu: {{tumor[6]}}</option> 
+                  <option value="Pozitif">Pozitif</option>
+                  <option value="Negatif">Negatif</option>
+                  
+                </select>
+                </div>
+             
+              
+              <div class="text-center"><button style="background: #093fee;color: white;" type="submit">Güncelle</button></div>
+              
+            </form>
+            
+          </div>
+      
+        </div>
+      
+      </div>
+      </section>
+      </main>
 <script>
 function printDiv(divName) {
      var printContents = document.getElementById(divName).innerHTML;

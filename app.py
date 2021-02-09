@@ -109,6 +109,7 @@ def resultTumor():
 @app.route('/AddTumor',methods=['POST'])
 def addTumor():
     tc=request.form.get("tcno")
+    result=request.form.get("result")
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(TC)s AND `doctor` LIKE %(doctor)s ",{'TC': tc,'doctor': doctor})
     users=cursor.fetchall()
@@ -116,7 +117,7 @@ def addTumor():
     if len(users)<=0:
         return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="Hata: Bu TC Kimlik Nosuna Sahip Hasta Bulunamadı",contactdetail=contactdetail)
     else:
-        cursor.execute("UPDATE `tumor`  SET `TC` = %(tc)s ,`cinsiyet` = %(cinsiyet)s,`birthdate` = %(birthdate)s,`ban` = %(ban)s WHERE `ban` = '1' AND  `TC` = '00000000000' AND `doctor` LIKE  %(doctor)s",{'tc': tc,'cinsiyet':users[0][9],'birthdate':users[0][5],'ban':'0','doctor':doctor})   
+        cursor.execute("UPDATE `tumor`  SET `TC` = %(tc)s ,`result` = %(result)s,`cinsiyet` = %(cinsiyet)s,`birthdate` = %(birthdate)s,`ban` = %(ban)s WHERE `ban` = '1' AND  `TC` = '00000000000' AND `doctor` LIKE  %(doctor)s",{'tc': tc,'result':result,'cinsiyet':users[0][9],'birthdate':users[0][5],'ban':'0','doctor':doctor})   
         mysql.connection.commit()
         return render_template('result.html',isim=openName,menu="menu",admin=adminstatus,image=rTumor[0][0],tumor=rTumor[0][1],result=rTumor[0][2],error="MR Sonucu Başarılı Bir Şekilde Kaydedildi.",link="a",contactdetail=contactdetail)
 @app.route('/')
@@ -256,11 +257,22 @@ def showviewPatients():
         return render_template('patientsview.html',isim=openName,menu="menu",admin=adminstatus,data=data,sumpatient=countpatients[0],negative=male[0],possitive=female[0],male=male[0],female=female[0],age1=age1[0],age2=age2[0],age3=age3[0],age4=age4[0],contactdetail=contactdetail)
     else:
         return redirect(url_for('login'))
+@app.route('/updateResultTumor',methods=['POST'])
+def updateResultTumor():
+    tc=request.form.get("tc")
+    id=request.form.get("id")
+    result=request.form.get("result")
+    print(result)
+    cursor = mysql.connection.cursor()
+    cursor.execute("UPDATE `tumor`  SET `result` = %(result)s  WHERE `id` = %(id)s AND `TC` = %(tc)s AND `doctor` = %(doctor)s ",{'result':result,'id': id,'tc': tc,'doctor':doctor})  
+    mysql.connection.commit()
+    return redirect(url_for('showViewMR'))        
 @app.route('/deleteReport',methods=['POST'])
 def deleteReport():
     tc=request.form.get("tc")
+    id=request.form.get("id")
     cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE `tumor`  SET `ban` = %(ban)s  WHERE `TC` = %(tc)s AND `doctor` = %(doctor)s ",{'ban':'1','tc': tc,'doctor':doctor})  
+    cursor.execute("UPDATE `tumor`  SET `ban` = %(ban)s  WHERE `id` = %(id)s AND `TC` = %(tc)s AND `doctor` = %(doctor)s ",{'ban':'1','id': id,'tc': tc,'doctor':doctor})  
     mysql.connection.commit()
     return redirect(url_for('showViewMR'))
 @app.route('/MRReports')
