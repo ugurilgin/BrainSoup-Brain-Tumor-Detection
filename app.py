@@ -456,7 +456,10 @@ def update_User():
     cursor = mysql.connection.cursor()
     if 'Update' in request.form:
         try:
-            cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s,`password` = %(password)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'password':result,'email':email})  
+            if (password==""):
+                cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'email':email})  
+            else:
+                cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s,`password` = %(password)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'password':result,'email':email})  
             mysql.connection.commit()
             return redirect(url_for('profile'))
         except:
