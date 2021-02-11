@@ -40,9 +40,10 @@
               {% if isim %}   
               <h2>Merhaba, {{isim}}</h2>
               {% endif %}
+              {% if sumpatient %}
             </br>  </br> 
 
-
+           
 
               <div class="row">
                 <div  class="col-md-6 col-xl-4">
@@ -191,6 +192,7 @@ function drawChart() {
 }
 </script>
           </div>
+          {% endif %}
         </section >
 
           <section id="register" class="contact">
