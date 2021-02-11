@@ -169,10 +169,10 @@ google.charts.setOnLoadCallback(drawChart);
 
 // Draw the chart and set the chart values
 function drawChart() {
-  var age1=Number("{% if age1 %} {{age1}} {% endif %}");
-  var age2=Number("{% if age2 %} {{age2}} {% endif %}");
-  var age3=Number("{% if age3 %} {{age3}} {% endif %}");
-  var age4=Number("{% if age4 %} {{age4}} {% endif %}");
+  var age1=Number("{% if age1 %}  {{age1}}   {% endif %}");
+  var age2=Number("{% if age2 %}  {{age2}}   {% endif %}");
+  var age3=Number("{% if age3 %}  {{age3}}   {% endif %}");
+  var age4=Number("{% if age4 %}  {{age4}}   {% endif %}");
   var data = google.visualization.arrayToDataTable([
   ['Task', 'Hours per Day'],
   ['18 Yaş Altı Hasta Sayısı', age1],
