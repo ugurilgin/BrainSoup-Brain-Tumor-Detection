@@ -1229,7 +1229,29 @@ def loginAPI():
       
     else:
         error=[{"error":"Kullanıcı Adı veya Şifre Yanlış"}]
-        return jsonify(error) 
+        return  jsonify(error) 
+
+@app.route('/apiDesktop',methods=['POST'])
+def apiDesktop():
+    try:
+        file = request.files['file']
+        today=date.today()
+    
+        filename = secure_filename(file.filename)
+        name=secrets.token_hex()
+        fullname=name+"."+filename.rsplit('.', 1)[1].lower()
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], fullname))
+        a=TumorExtractor(os.path.join(app.config['UPLOAD_FOLDER'], fullname),name)
+        out=a.predict()
+        inimage="uploads/input/"+name+"."+filename.rsplit('.', 1)[1].lower()
+        if (out=="Pozitif"):
+            outimage="uploads/output/yes/"+name+".jpg"
+        else:
+            outimage="uploads/output/no/"+name+".jpg"
+        return jsonify({'imgLoc': inimage,
+                       'tumorLoc': outimage,'result':out})
+    except:
+        return jsonify({'error': 'Dosya Yüklenemedi'})
         
 
 ############## < /Web API > ################################################################################################################################################
