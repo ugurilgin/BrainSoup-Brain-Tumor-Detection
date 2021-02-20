@@ -1212,10 +1212,10 @@ def ReferanceAdder():
 
 ############## < Web API > ################################################################################################################################################
 
-@app.route('/loginAPI',methods=['POST'])
+@app.route('/loginAPI',methods=['POST','GET'])
 def loginAPI():
-    email=request.form.get("email")
-    password=request.form.get("password")
+    email=request.args.get("email")
+    password=request.args.get("password")
     print("Email: "+email+"Password: "+password)
     result = hashlib.md5(password.encode("utf-8")).hexdigest()
     cursor = mysql.connection.cursor()
@@ -1223,14 +1223,35 @@ def loginAPI():
     
     users=cursor.fetchall()
     if len(users)>0:
-        info=[{"name":users[0][1],"email":users[0][3],"key":users[0][6]}]
+        info=[{"name":users[0][1],"email":users[0][3],"key":users[0][6],"error":"0"}]
         return jsonify(info)
         
       
     else:
-        error=[{"error":"Kullanıcı Adı veya Şifre Yanlış"}]
+        error=[{"name":"0","email":"0","key":"0","error":"1"}]
         return  jsonify(error) 
+@app.route('/forgetAPI',methods=['GET','POST'])
+def forgetAPI():
+    try:
+        email=request.args.get("email")
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT user_auth FROM `users` WHERE `email` LIKE  %(email)s  ",{'email': email}) 
+        users=cursor.fetchall()
+        if(len(users)>0):
+            link="http://192.168.1.70:5000/resetpass/"+users[0][0]
+            full_message="Merhabalar,\n\n Şifrenizi Yenilemek İçin Aşağıdaki Bağlantıyı Kullanabilirsiniz\n\n"+link+"\n\n\n İyi Günler Dileriz\n"
+            message=Message("BrainSoup Şifre Yenileme İsteği",sender=myMail.userName,recipients=[email])
+            message.body=full_message
+            mail.send(message)
+            result=[{"result":"Şifre Sıfırlama Maili Başarıyla Gönderildi"}]
+            return  jsonify(result)
+        else:
+            result=[{"result":"Kayıtlı Mail Bulunamadı"}]
+            return  jsonify(result)
 
+    except :
+        result=[{"result":"Hata Sıfırlama Maili Gönderilemedi"}]
+        return  jsonify(result)
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
     try:
