@@ -1212,25 +1212,52 @@ def ReferanceAdder():
 
 ############## < Web API > ################################################################################################################################################
 
-@app.route('/loginAPI',methods=['POST','GET'])
+@app.route('/loginAPI',methods=['POST'])
 def loginAPI():
-    email=request.args.get("email")
-    password=request.args.get("password")
-    print("Email: "+email+"Password: "+password)
-    result = hashlib.md5(password.encode("utf-8")).hexdigest()
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM `users` WHERE `email` LIKE %(email)s AND `password` LIKE %(password)s AND `ban` LIKE '0' ",{'email': email,'password':result})
-    
-    users=cursor.fetchall()
-    if len(users)>0:
-        info=[{"name":users[0][1],"email":users[0][3],"key":users[0][6],"error":"0"}]
-        return jsonify(info)
+    try:
+        content=request.json
+        email=content["email"]
+        password=content["password"]
+        print("Email: "+email+"Password: "+password)
+        result = hashlib.md5(password.encode("utf-8")).hexdigest()
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM `users` WHERE `email` LIKE %(email)s AND `password` LIKE %(password)s AND `ban` LIKE '0' ",{'email': email,'password':result})
         
-      
-    else:
-        error=[{"name":"0","email":"0","key":"0","error":"1"}]
-        return  jsonify(error) 
-@app.route('/forgetAPI',methods=['GET','POST'])
+        users=cursor.fetchall()
+        if len(users)>0:
+            info=[{"name":users[0][1],"surname":users[0][2],"email":users[0][3],"key":users[0][6],"error":"Success"}]
+            return jsonify(info)
+
+        else:
+            error=[{"name":"0","surname":"0","email":"0","key":"0","error":"Failed"}]
+            return  jsonify(error) 
+    except:
+        error=[{"name":"0","surname":"0","email":"0","key":"0","error":"Database"}]
+        return  jsonify(error)  
+@app.route('/registerAPI',methods=['POST'])
+def registerAPI():
+    try:
+        content=request.json
+        email=content["email"]
+        password=content["password"]
+        name=content["name"]
+        surname=content["surname"]
+        result = hashlib.md5(password.encode("utf-8")).hexdigest()
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM `users` WHERE `email` LIKE %(email)s ",{'email': email})
+        users=cursor.fetchall()
+        if len(users)>0:
+            result=[{"result":"Hata Bu Kullanıcı Zaten Kayıtlı"}]
+            return  jsonify(result)
+        else:
+            cursor.execute("INSERT INTO `users` (`name`,`surname`,`email`,`password`,`ban`,`user_auth`,`admin`) VALUES( %(name)s,%(surname)s,%(email)s,%(password)s,%(ban)s,%(user_auth)s,%(admin)s)",{'name': name,'surname':surname,'email':email,'password':result,'ban':'0','user_auth':secrets.token_hex(),'admin':'0'})  
+            mysql.connection.commit()
+            result=[{"result":"Yeni Kullanıcı Başarıyla Oluşturuldu"}]
+            return  jsonify(result)
+    except:
+        result=[{"result":"Veritabanına Erişilemiyor"}]
+        return  jsonify(result) 
+@app.route('/forgetAPI',methods=['GET'])
 def forgetAPI():
     try:
         email=request.args.get("email")
