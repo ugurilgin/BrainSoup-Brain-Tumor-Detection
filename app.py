@@ -1359,9 +1359,9 @@ def apiDesktop():
         out=a.predict()
         inimage="uploads/input/"+name+"."+filename.rsplit('.', 1)[1].lower()
         if (out=="Pozitif"):
-            outimage="uploads/output/yes/"+name+".jpg"
+            outimage="uploads/output/yes/"+"."+filename.rsplit('.', 1)[1].lower()
         else:
-            outimage="uploads/output/no/"+name+".jpg"
+            outimage="uploads/output/no/"+name+"."+filename.rsplit('.', 1)[1].lower()
         return jsonify({'imgLoc': inimage,
                        'tumorLoc': outimage,'result':out})
     except:
