@@ -1326,7 +1326,7 @@ def addPatientAPI():
     except:
         result=[{"result":"Hata Hasta Oluşturulamadı"}]
         return  jsonify(result)  
-@app.route('/unSavedAPI')
+@app.route('/unSavedAPI',methods=['POST'])
 def unSavedAPI():
     content=request.json
     userapi=content["userKey"]
