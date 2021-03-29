@@ -1326,6 +1326,25 @@ def addPatientAPI():
     except:
         result=[{"result":"Hata Hasta Oluşturulamadı"}]
         return  jsonify(result)  
+@app.route('/unSavedAPI')
+def unSavedAPI():
+    content=request.json
+    userapi=content["userKey"]
+    try:
+        global rTumor
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT imgloc,tumorloc,result FROM `tumor` WHERE `TC` LIKE '00000000000' AND `ban` LIKE '1' AND `doctor` LIKE  %(doctor)s  ",{'doctor': userapi}) 
+        data=cursor.fetchall()
+        if(len(data)>0):
+            rTumor=data
+            result=[{"result":data[0][2],"imgloc":data[0][0],"tumorloc":data[0][1]}]
+            return  jsonify(result)
+        else:
+            result=[{"result":"Kaydedilmemiş MR Görüntüsü Bulunamadı","imgloc":"0","tumorloc":"0"}]
+            return  jsonify(result) 
+    except:
+        result=[{"result":"Hata Veritabanına Ulaşılamıyor","imgloc":"0","tumorloc":"0"}]
+        return  jsonify(result)  
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
     try:
