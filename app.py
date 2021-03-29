@@ -1345,6 +1345,29 @@ def unSavedAPI():
     except:
         result=[{"result":"Hata Veritabanına Ulaşılamıyor","imgloc":"0","tumorloc":"0"}]
         return  jsonify(result)  
+
+@app.route('/unSavedSaveAPI',methods=['POST'])
+def unSavedSaveAPI():
+    content=request.json
+    userapi=content["userKey"]
+    tc=content["tc"]
+    result=content["result"]
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(TC)s AND `doctor` LIKE %(doctor)s ",{'TC': tc,'doctor': userapi})
+        users=cursor.fetchall()
+        print(len(users))
+        if len(users)<=0:
+            result=[{"result":"Hata: Bu TC Kimlik Nosuna Sahip Hasta Bulunamadı"}]
+            return  jsonify(result) 
+        else:
+            cursor.execute("UPDATE `tumor`  SET `TC` = %(tc)s ,`result` = %(result)s,`cinsiyet` = %(cinsiyet)s,`birthdate` = %(birthdate)s,`ban` = %(ban)s WHERE `ban` = '1' AND  `TC` = '00000000000' AND `doctor` LIKE  %(doctor)s",{'tc': tc,'result':result,'cinsiyet':users[0][9],'birthdate':users[0][5],'ban':'0','doctor':userapi})   
+            mysql.connection.commit()
+            result=[{"result":"MR Sonucu Başarıyla Kaydedildi"}]
+            return  jsonify(result) 
+    except:
+        result=[{"result":"Hata: Veritabanına Erişilemiyor"}]
+        return  jsonify(result) 
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
     try:
