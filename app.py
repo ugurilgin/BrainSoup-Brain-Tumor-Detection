@@ -1279,6 +1279,53 @@ def forgetAPI():
     except :
         result=[{"result":"Hata Sıfırlama Maili Gönderilemedi"}]
         return  jsonify(result)
+@app.route('/updateAPI',methods=['POST'])
+def updateAPI():
+    content=request.json
+    email=content["email"]
+    password=content["password"]
+    name=content["name"]
+    surname=content["surname"]
+    result = hashlib.md5(password.encode("utf-8")).hexdigest()
+    cursor = mysql.connection.cursor()
+    try:
+        if (password=="-1"):
+            cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'email':email})  
+        else:
+            cursor.execute("UPDATE `users`  SET `name` = %(name)s ,`surname` = %(surname)s,`password` = %(password)s WHERE `email` = %(email)s",{'name': name,'surname':surname,'password':result,'email':email})  
+        mysql.connection.commit()
+        result=[{"result":"Profil Başarıyla Güncellendi"}]
+        return  jsonify(result)
+    except:
+        result=[{"result":"Hata Profil Güncellenemedi"}]
+        return  jsonify(result)
+@app.route('/addPatientAPI',methods=['POST'])
+def addPatientAPI():
+    content=request.json
+    email=content["email"]
+    tcno=content["tc"]
+    birth=content["date"]
+    today=date.today()
+    name=content["name"]
+    surname=content["surname"]
+    cinsiyet=content["cinsiyet"]
+    userapi=content["userKey"]
+    cursor = mysql.connection.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tcno)s AND `doctor` LIKE  %(doctor)s ",{'tcno': tcno,'doctor':userapi})
+        users=cursor.fetchall()
+        if len(users)>0:
+            result=[{"result":"Hata Bu Hasta Zaten Kayıtlı"}]
+            return  jsonify(result)
+        else:
+            cursor.execute("INSERT INTO `patients` (`TC`,`name`,`surname`,`email`,`birthdate`,`date`,`doctor`,`ban`,`cinsiyet`) VALUES( %(TC)s,%(name)s,%(surname)s,%(email)s,%(birthdate)s,%(date)s,%(doctor)s,%(ban)s,%(cinsiyet)s)",{'TC': tcno,'name':name,'surname':surname,'email':email,'birthdate':birth,'date':today,'doctor':userapi,'ban':'0','cinsiyet':cinsiyet})  
+            mysql.connection.commit()
+            result=[{"result":"Hasta Başarılı Bir Şekilde Kaydedildi"}]
+            return  jsonify(result)
+    except:
+        result=[{"result":"Hata Hasta Oluşturulamadı"}]
+        return  jsonify(result)  
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
     try:
@@ -1300,8 +1347,19 @@ def apiDesktop():
                        'tumorLoc': outimage,'result':out})
     except:
         return jsonify({'error': 'Dosya Yüklenemedi'})
-        
 
+@app.route('/helloapi',methods=['POST','GET'])
+def helloapi():
+   cur = mysql.connection.cursor()
+   cur.execute("SELECT * FROM users")
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0], 'username': result[1], 'password': result[2]}
+       payload.append(content)
+       content = {}
+   return jsonify(payload)
 ############## < /Web API > ################################################################################################################################################
 
 
