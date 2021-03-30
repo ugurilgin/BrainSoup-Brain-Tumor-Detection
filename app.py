@@ -1368,6 +1368,45 @@ def unSavedSaveAPI():
     except:
         result=[{"result":"Hata: Veritabanına Erişilemiyor"}]
         return  jsonify(result) 
+@app.route('/viewPatientAPI',methods=['POST'])
+def viewPatientAPI():
+    try:
+        content=request.json
+        userapi=content["userKey"]
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM patients WHERE ban LIKE '0' AND doctor LIKE  %(doctor)s ",{'doctor': userapi})
+        rv = cur.fetchall()
+        payload = []
+        content = {}
+        for result in rv:
+            content = {'id': result[0], 'tc': result[1], 'name': result[2],'surname': result[3],'email': result[4],'birthdate': result[5],'cinsiyet': result[9]}
+            payload.append(content)
+            content = {}
+        return jsonify(payload)
+    except:
+        result=[{"id":"-1","tc":"0","name":"0","surname":"0","email":"0","birthdate":"0","cinsiyet":"0"}]
+        return result
+@app.route('/viewTumorAPI',methods=['POST'])
+def viewTumorAPI():
+    try:
+        content=request.json
+        userapi=content["userKey"]
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM tumor WHERE ban LIKE '0' AND doctor LIKE  %(doctor)s ",{'doctor': userapi})
+        rv = cur.fetchall()
+        payload = []
+        content = {}
+        for result in rv:
+            cur.execute("SELECT * FROM patients WHERE ban LIKE '0'  AND TC LIKE  %(TC)s  AND doctor LIKE  %(doctor)s ",{'TC': result[1],'doctor': userapi})
+            resultpat = cur.fetchone()
+            fullname= resultpat[2]+" "+resultpat[3]
+            content = {'id': result[0], 'tc': result[1], 'fullname': fullname,'tumor': result[4],'result': result[6]}
+            payload.append(content)
+            content = {}
+        return jsonify(payload)
+    except:
+        result=[{"id":"-1","tc":"0","fullname":"0",,"tumor":"0","result":"0"}]
+        return result
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
     try:
@@ -1390,18 +1429,7 @@ def apiDesktop():
     except:
         return jsonify({'error': 'Dosya Yüklenemedi'})
 
-@app.route('/helloapi',methods=['POST','GET'])
-def helloapi():
-   cur = mysql.connection.cursor()
-   cur.execute("SELECT * FROM users")
-   rv = cur.fetchall()
-   payload = []
-   content = {}
-   for result in rv:
-       content = {'id': result[0], 'username': result[1], 'password': result[2]}
-       payload.append(content)
-       content = {}
-   return jsonify(payload)
+
 ############## < /Web API > ################################################################################################################################################
 
 
