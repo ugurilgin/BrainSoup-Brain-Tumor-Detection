@@ -1405,7 +1405,7 @@ def viewTumorAPI():
             content = {}
         return jsonify(payload)
     except:
-        result=[{"id":"-1","tc":"0","fullname":"0",,"tumor":"0","result":"0"}]
+        result=[{"id":"-1","tc":"0","fullname":"0","tumor":"0","result":"0"}]
         return result
 @app.route('/apiDesktop',methods=['POST'])
 def apiDesktop():
