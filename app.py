@@ -402,7 +402,7 @@ def add_Patients():
             return render_template('patientsadd.html',error="Hata: Hasta Bilgileri Güncellenemedi ",isim=openName,menu="menu",admin=adminstatus,TCnosu=TCNo,name=name,surname=surname,email=email,birth=birth,cinsiyet=cinsiyet,tcno=TCNo,contactdetail=contactdetail) 
     elif 'Delete' in request.form:
         try:
-            cursor.execute("UPDATE `patients`  SET `ban` = '1'  WHERE `TC` = %(TC)s",{'TC':TCNo})  
+            cursor.execute("UPDATE `patients`  SET `ban` = '1'  WHERE `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'TC':TCNo,'doctor':doctor})  
             mysql.connection.commit()
             return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Silindi. ",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
 
@@ -1407,7 +1407,138 @@ def viewTumorAPI():
     except:
         result=[{"id":"-1","tc":"0","fullname":"0","tumor":"0","result":"0"}]
         return result
-@app.route('/apiDesktop',methods=['POST'])
+@app.route('/updatePatientAPI',methods=['POST'])
+def updatePatientAPI():
+    content=request.json
+    userapi=content["userKey"]
+    apiid=content["id"]
+    email=content["email"]
+    tc=content["tc"]
+    birth=content["date"]
+    name=content["name"]
+    surname=content["surname"]
+    cinsiyet=content["cinsiyet"]
+    operator=content["operator"]
+    cursor = mysql.connection.cursor()
+
+    try:
+        if operator=="Update":
+            try:
+                cursor.execute("UPDATE `patients`  SET `name` = %(name)s ,`surname` = %(surname)s,`email` = %(email)s,`birthdate` = %(birthdate)s ,`cinsiyet` = %(cinsiyet)s WHERE `id` = %(ID)s AND `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'name': name,'surname':surname,'email':email,'birthdate':birth,'TC':tc,'ID':apiid,'cinsiyet':cinsiyet,'doctor':userapi})  
+                mysql.connection.commit()
+                result=[{"result":"Hasta Başarıyla Gücellendi"}]
+                return  jsonify(result) 
+            except:
+                result=[{"result":"Hata: Hasta Güncellenemedi"}]
+                return  jsonify(result) 
+                
+        elif operator=="Delete":
+            try:
+                cursor.execute("UPDATE `patients`  SET `ban` = '1'  WHERE `id` = %(ID)s AND `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'ID':apiid,'TC':tc,'doctor':userapi})  
+                mysql.connection.commit()
+                result=[{"result":"Hasta Başarıyla Silindi"}]
+                return  jsonify(result) 
+
+            except:
+                result=[{"result":"Hata: Hasta Silinemedi"}]
+                return  jsonify(result) @app.route('/apiDesktop',methods=['POST'])
+    except:
+        result=[{"result":"Hata: Veritabanına Erişilemiyor"}]
+        return  jsonify(result) 
+
+@app.route('/updateMRAPI',methods=['POST'])
+def updateMRAPI():
+    content=request.json
+    userapi=content["userKey"]
+    apiid=content["id"]
+    tc=content["tc"]
+    result=content["result"]
+    operator=content["operator"]
+    cursor = mysql.connection.cursor()
+    try:
+        if operator=="Update":
+            try:
+                cursor.execute("UPDATE `tumor`  SET `result` = %(result)s WHERE `id` = %(ID)s AND `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'TC':tc,'ID':apiid,'result':result,'doctor':userapi})  
+                mysql.connection.commit()
+                result=[{"result":"MR Başarıyla Gücellendi"}]
+                return  jsonify(result) 
+            except:
+                result=[{"result":"Hata: MR Güncellenemedi"}]
+                return  jsonify(result) 
+                
+        elif operator=="Delete":
+            try:
+                cursor.execute("UPDATE `tumor`  SET `ban` = '1'  WHERE `id` = %(ID)s AND `TC` = %(TC)s AND `doctor` LIKE  %(doctor)s",{'ID':apiid,'TC':tc,'doctor':userapi})  
+                mysql.connection.commit()
+                result=[{"result":"MR Başarıyla Silindi"}]
+                return  jsonify(result) 
+
+            except:
+                result=[{"result":"Hata: MR Silinemedi"}]
+                return  jsonify(result) @app.route('/apiDesktop',methods=['POST'])
+    except:
+        result=[{"result":"Hata: Veritabanına Erişilemiyor"}]
+        return  jsonify(result)
+
+@app.route('/uploadTumorAPI',methods=['POST'])
+def uploadTumorAPI():
+    try:
+        if request.method == 'POST':
+            if 'file' not in request.files:
+                result=[{"message":"Seçili Dosya Yok","img":"0","tumor":"0","result":"0"}]
+                return  jsonify(result)
+            file = request.files['file']
+            if file.filename == '':
+                result=[{"message":"Seçili Dosya Yok","img":"0","tumor":"0","result":"0"}]
+                return  jsonify(result)
+            if file and allowed_file(file.filename):
+               
+                filename = secure_filename(file.filename)
+                name=secrets.token_hex()
+                fullname=name+"."+filename.rsplit('.', 1)[1].lower()
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fullname))
+                a=TumorExtractor(os.path.join(app.config['UPLOAD_FOLDER'], fullname),name)
+                out=a.predict()
+                inimage="uploads/input/"+name+"."+filename.rsplit('.', 1)[1].lower()
+                if (out=="Pozitif"):
+                    outimage="uploads/output/yes/"+name+".jpg"
+                else:
+                    outimage="uploads/output/no/"+name+".jpg"
+                result=[{"message":"Tümör Başarıyla Tespit Edildi","img":inimage,"tumor":outimage,"result":out}]
+                return  jsonify(result)           
+    except:
+        result=[{"message":"Veritabanına Erişilemiyor","img":"0","tumor":"0","result":"0"}]
+        return  jsonify(result) 
+
+@app.route('/predictMRAPI',methods=['POST'])
+def predictMRAPI():
+    try:
+        content=request.json
+        userapi=content["userKey"]
+        result=content["result"]
+        img=content["img"]
+        tumor=content["tumor"]
+        today=date.today()
+        cursor = mysql.connection.cursor()
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM `tumor` WHERE `TC` LIKE '00000000000' AND `ban` LIKE '1'  AND `doctor` LIKE  %(doctor)s  ",{'doctor': userapi})
+        users=cursor.fetchall()
+        if len(users)>0:
+            cursor.execute("UPDATE `tumor`  SET `imgloc` = %(imgloc)s ,`tumorloc` = %(tumorloc)s,`result` = %(result)s WHERE `ban` = '1' AND  `TC` = '00000000000' AND `doctor` LIKE  %(doctor)s",{'imgloc': img,'tumorloc':tumor,'result':result,'doctor':userapi})  
+            mysql.connection.commit()
+            result=[{"result":"Tümör Başarıyla Tespit Edildi"}]
+            return  jsonify(result)
+        else:
+            cursor.execute("INSERT INTO `tumor` (`TC`,`date`,`imgloc`,`tumorloc`,`doctor`,`result`,`ban`) VALUES( %(TC)s,%(date)s,%(imgloc)s,%(tumorloc)s,%(doctor)s,%(result)s,%(ban)s)",{'TC': '00000000000','date':str(today),'imgloc':img,'tumorloc':tumor,'doctor':userapi,'result':result,'ban':'1'})  
+            mysql.connection.commit()
+            result=[{"result":"Tümör Başarıyla Tespit Edildi"}]
+            return  jsonify(result)
+    except:
+        result=[{"result":"Veritabanına Erişilemiyor"}]
+        return  jsonify(result)
+
+
+@app.route('/apiDesktop',methods=['POST'])       
 def apiDesktop():
     try:
         file = request.files['file']
@@ -1421,9 +1552,9 @@ def apiDesktop():
         out=a.predict()
         inimage="uploads/input/"+name+"."+filename.rsplit('.', 1)[1].lower()
         if (out=="Pozitif"):
-            outimage="uploads/output/yes/"+"."+filename.rsplit('.', 1)[1].lower()
+            outimage="uploads/output/yes/"+name+".jpg"
         else:
-            outimage="uploads/output/no/"+name+"."+filename.rsplit('.', 1)[1].lower()
+            outimage="uploads/output/no/"+name+".jpg"
         return jsonify({'imgLoc': inimage,
                        'tumorLoc': outimage,'result':out})
     except:
