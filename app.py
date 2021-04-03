@@ -1420,7 +1420,7 @@ def viewPatientAPI():
         return jsonify(payload)
     except:
         result=[{"id":"-1","tc":"0","name":"0","surname":"0","email":"0","birthdate":"0","cinsiyet":"0"}]
-        return result
+        return jsonify(result)
 @app.route('/viewTumorAPI',methods=['POST'])
 def viewTumorAPI():
     try:
@@ -1432,16 +1432,17 @@ def viewTumorAPI():
         payload = []
         content = {}
         for result in rv:
-            cur.execute("SELECT * FROM patients WHERE ban LIKE '0'  AND TC LIKE  %(TC)s  AND doctor LIKE  %(doctor)s ",{'TC': result[1],'doctor': userapi})
+            cur.execute("SELECT * FROM patients WHERE TC LIKE  %(TC)s  AND doctor LIKE  %(doctor)s ",{'TC': result[1],'doctor': userapi})
             resultpat = cur.fetchone()
             fullname= resultpat[2]+" "+resultpat[3]
             content = {'id': result[0], 'tc': result[1], 'fullname': fullname,'tumor': result[4],'result': result[6]}
             payload.append(content)
             content = {}
         return jsonify(payload)
-    except:
+    except ValueError as hata:
+        print(hata)
         result=[{"id":"-1","tc":"0","fullname":"0","tumor":"0","result":"0"}]
-        return result
+        return jsonify(result)
 @app.route('/updatePatientAPI',methods=['POST'])
 def updatePatientAPI():
     content=request.json
