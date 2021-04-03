@@ -696,7 +696,7 @@ def viewUserAdmin():
         if(len(data)>0):
             cursor.execute("SELECT count(`id`) FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'")  
             unread=cursor.fetchall()
-            cursor.execute("SELECT id,name,surname,email,admin FROM `users` WHERE `ban` LIKE '0' ") 
+            cursor.execute("SELECT id,name,surname,email,admin FROM `users`  ") 
             datas=cursor.fetchall() 
             cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0'  ORDER BY id DESC LIMIT 5")
             allmessage=cursor.fetchall()
@@ -709,6 +709,8 @@ def viewUserAdmin():
 @app.route('/userSettings/<id>')
 def userSettingsAdmin(id):
     if 'user_auth' in session:
+        banstate="Kullanıcıyı Engelle"
+        adminstate="Admin Yap"
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
         data=cursor.fetchall()
@@ -721,9 +723,19 @@ def userSettingsAdmin(id):
                 return redirect(url_for('viewUserAdmin'))
             if id!="default":
                 cursor = mysql.connection.cursor()
-                cursor.execute("SELECT id,name,surname,email,admin FROM `users` WHERE `id` LIKE  %(id)s AND `ban` LIKE  '0'  ",{'id': id}) 
+                cursor.execute("SELECT id,name,surname,email,admin FROM `users` WHERE `id` LIKE  %(id)s  ",{'id': id}) 
                 readmail=cursor.fetchall()
-                return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=readmail[0][0],name=readmail[0][1],surname=readmail[0][2],email=readmail[0][3],isadmin=readmail[0][4])
+                cursor.execute("SELECT admin,ban FROM `users` WHERE `id` LIKE  %(id)s  ",{'id': id}) 
+                selectuser=cursor.fetchall()
+                if selectuser[0][0]=="1":
+                    adminstate="Yöneticilikten Çıkar"
+                else:
+                    adminstate="Yönetici Yap"
+                if selectuser[0][1]=="1":
+                    banstate="Engellemeyi Kaldır"
+                else:
+                    banstate="Kullanıcıyı Engelle"
+                return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,id=readmail[0][0],name=readmail[0][1],surname=readmail[0][2],email=readmail[0][3],isadmin=readmail[0][4],adminstate=adminstate,banstate=banstate)
         else:
             return redirect(url_for('profile'))
     else:
@@ -731,6 +743,9 @@ def userSettingsAdmin(id):
 @app.route('/operatorUserAdmin',methods=['POST'])
 def operatorUserAdmin():
     if 'user_auth' in session:
+        banstate="Kullanıcıyı Engelle"
+        adminstate="Admin Yap"
+        errormessage="Test"
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT admin FROM `users` WHERE `admin` LIKE  '1' AND `ban` LIKE '0' AND `user_auth` LIKE  %(doctor)s  ",{'admin':'1','doctor': doctor}) 
         data=cursor.fetchall()
@@ -740,21 +755,41 @@ def operatorUserAdmin():
             cursor.execute("SELECT * FROM `email` WHERE `ban` LIKE '0' AND  `status` LIKE '0' ORDER BY id DESC LIMIT 5")
             allmessage=cursor.fetchall()
             id=request.form.get("id")
-            email=request.form.get("email")
+            cursor.execute("SELECT admin,ban FROM `users` WHERE `id` LIKE  %(id)s  ",{'id': id}) 
+            selectuser=cursor.fetchall()
+            
             if 'Answer' in request.form:
                     try:
-                        cursor.execute("UPDATE `users`  SET `admin` = %(admin)s  WHERE `id` = %(id)s AND `email` = %(email)s ",{'admin':'1','id':id,'email':email})  
-                        mysql.connection.commit()
-                        return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kullanıcı Başarıyla Yönetici Yapıldı",link="a")
+                        if selectuser[0][0]=="0":
+                            adminstate="Yöneticilikten Çıkar"
+                            errormessage="Kullanıcı Başarıyla Yönetici Yapıldı."
+                            cursor.execute("UPDATE `users`  SET `admin` = %(admin)s  WHERE `id` = %(id)s ",{'admin':'1','id':id})  
+                            mysql.connection.commit()
+                        else:
+                            adminstate="Yönetici Yap"
+                            errormessage="Kullanıcı Başarıyla Yöneticilikten Çıkarıldı."
+                            cursor.execute("UPDATE `users`  SET `admin` = %(admin)s  WHERE `id` = %(id)s ",{'admin':'0','id':id})  
+                            mysql.connection.commit()
+
+                        return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error=errormessage,link="a",adminstate=adminstate,banstate=banstate)
                     except:
-                        return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata: Kullanıcı Yönetici Yapılamadı") 
+                        return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata: Kullanıcı Yönetici Yapılamadı",adminstate=adminstate,banstate=banstate) 
             elif 'Delete' in request.form:
                 try:
-                    cursor.execute("UPDATE `users`  SET `ban` = %(ban)s  WHERE `id` = %(id)s AND `email` = %(email)s",{'ban':'1','id':id,'email':email})  
-                    mysql.connection.commit()
-                    return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Kullanıcı Başarıyla Silindi",link="a")
+                    if selectuser[0][1]=="0":
+                        banstate="Engellemeyi Kaldır"
+                        errormessage="Kullanıcı Başarıyla Engellendi."
+                        cursor.execute("UPDATE `users`  SET `ban` = %(ban)s  WHERE `id` = %(id)s ",{'ban':'1','id':id})  
+                        mysql.connection.commit()
+                    else:
+                        banstate="Kullanıcıyı Engelle"
+                        errormessage="Kullanıcının Engeli Başarıyla Kaldırıldı."
+                        cursor.execute("UPDATE `users`  SET `ban` = %(ban)s  WHERE `id` = %(id)s ",{'ban':'0','id':id})  
+                        mysql.connection.commit()
+
+                    return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error=errormessage,link="a",adminstate=adminstate,banstate=banstate)
                 except:
-                    return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kullanıcı Silinemedi") 
+                    return render_template('readuser.html',isim=openName,unread=unread[0][0],allmessage=allmessage,error="Hata:Kullanıcı Silinemedi",adminstate=adminstate,banstate=banstate) 
             
             else:
                 pass
