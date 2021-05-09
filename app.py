@@ -223,7 +223,7 @@ def MRDetails(id):
             else:
                 tc=str(tumordata[1])
                 
-            cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tc)s AND `ban` LIKE '0' AND `doctor` LIKE  %(doctor)s  ",{'tc': tc,'doctor': doctor}) 
+            cursor.execute("SELECT * FROM `patients` WHERE `TC` LIKE %(tc)s  AND `doctor` LIKE  %(doctor)s  ",{'tc': tc,'doctor': doctor}) 
             patientdata=cursor.fetchone()
             if len(patientdata)>0:
                 return render_template('detailmr.html',isim=openName,menu="menu",admin=adminstatus,tumor=tumordata,patients=patientdata,contactdetail=contactdetail)
@@ -424,7 +424,7 @@ def add_Patients():
         else:
             cursor.execute("INSERT INTO `patients` (`TC`,`name`,`surname`,`email`,`birthdate`,`date`,`doctor`,`ban`,`cinsiyet`) VALUES( %(TC)s,%(name)s,%(surname)s,%(email)s,%(birthdate)s,%(date)s,%(doctor)s,%(ban)s,%(cinsiyet)s)",{'TC': tcno,'name':name,'surname':surname,'email':email,'birthdate':birth,'date':today,'doctor':doctor,'ban':'0','cinsiyet':cinsiyet})  
             mysql.connection.commit()
-            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Kaydedildi.",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
+            return render_template('patientsadd.html',error=" Hasta Bilgileri Başarılı Bir Şekilde Kaydedildi.",tcno="default",link="a",isim=openName,menu="menu",admin=adminstatus,contactdetail=contactdetail) 
     else:
         pass
 @app.route('/addUser',methods=['POST'])
@@ -500,6 +500,8 @@ def changePassword():
         cursor.execute("UPDATE `users`  SET `password` = %(password)s  WHERE `ban`='0' AND `user_auth` = %(key)s",{'key':changepass,'password':result})  
         mysql.connection.commit()
         return render_template('login.html',error="Şifreniz Başarıyla Değiştirildi.Yeni Şifrenizle Giriş Yapabilirsiniz",contactdetail=contactdetail)
+    else:
+        return render_template('reset.html',error="Hata: Şifreler Birbirleriyle Uyuşmuyor Lütfen Kontrol Ediniz",contactdetail=contactdetail,key=changepass)
 
 @app.route('/resetPassword',methods=['POST'])
 def resetPassword():
@@ -514,12 +516,12 @@ def resetPassword():
             message=Message("BrainSoup Şifre Yenileme İsteği",sender=myMail.userName,recipients=[email])
             message.body=full_message
             mail.send(message)
-            return render_template('reset.html',error="Şifre Yenileme Mailiniz Başarıyla Gönderildi",contactdetail=contactdetail)
+            return render_template('reset.html',error="Şifre Yenileme Mailiniz Başarıyla Gönderildi",key="default",contactdetail=contactdetail)
         else:
-            return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",contactdetail=contactdetail)
+            return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",key="default",contactdetail=contactdetail)
 
     except :
-        return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",contactdetail=contactdetail)
+        return render_template('reset.html',error="Mail Gönderilemedi.Bu Maile Ait Kullanıcı Bulunamamıştır.",key="default",contactdetail=contactdetail)
 
 ############## </Web Assitant Pages > #########################################################################################################################################
 
